@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useAuthStore } from '@/stores'
-import { config } from '@/config/environment'
 
 export function AuthModal() {
   const { showAuthModal, authModalTab, setShowAuthModal, setAuthModalTab, login, register } = useAuthStore()
@@ -12,7 +11,6 @@ export function AuthModal() {
   const [error, setError] = useState('')
   const [newUserPoints, setNewUserPoints] = useState(1000)
 
-  // 弹窗打开时清空表单并获取注册积分配置
   useEffect(() => {
     if (showAuthModal) {
       setPhone('')
@@ -26,13 +24,12 @@ export function AuthModal() {
 
   const fetchNewUserPoints = async () => {
     try {
-      const res = await fetch(`${config.apiBaseUrl}/api/points-config`)
+      const res = await fetch('/api/points-config')
       if (res.ok) {
         const data = await res.json()
         setNewUserPoints(data.newUserPoints || 1000)
       }
-    } catch {
-    }
+    } catch {}
   }
 
   if (!showAuthModal) return null
@@ -65,21 +62,17 @@ export function AuthModal() {
       setError('两次输入的密码不一致')
       return
     }
-      setError('请输入正确的验证码')
-      return
-    }
 
     setLoading(true)
     try {
       if (isLogin) {
         await login(phone.trim(), password)
       } else {
+        await register(phone.trim(), password, inviteCode.trim().toUpperCase() || undefined)
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : '操作失败，请重试'
       setError(msg)
-      if (!isLogin) {
-      }
     } finally {
       setLoading(false)
     }
@@ -197,19 +190,10 @@ export function AuthModal() {
                     text-text placeholder-text-muted
                     focus:outline-none focus:border-star/50 focus:bg-white/[0.06]
                     transition-all duration-200
-                    uppercase tracking-widest
-                  "
-                />
-              </div>
-            )}
-
-            {!isLogin && (
-              <div>
-                  onVerify={(valid, token, code) => {
-                  }}
-                />
-              </div>
-            )}
+                  uppercase tracking-widest
+                "
+              />
+            </div>
 
             {error && (
               <p className="text-misfortune text-sm text-center">{error}</p>
