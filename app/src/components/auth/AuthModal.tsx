@@ -65,15 +65,13 @@ export function AuthModal() {
       setError('两次输入的密码不一致')
       return
     }
-      setError('请输入正确的验证码')
-      return
-    }
 
     setLoading(true)
     try {
       if (isLogin) {
         await login(phone.trim(), password)
       } else {
+        await register(phone.trim(), password, inviteCode)
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : '操作失败，请重试'
@@ -203,13 +201,7 @@ export function AuthModal() {
               </div>
             )}
 
-            {!isLogin && (
-              <div>
-                  onVerify={(valid, token, code) => {
-                  }}
-                />
-              </div>
-            )}
+
 
             {error && (
               <p className="text-misfortune text-sm text-center">{error}</p>

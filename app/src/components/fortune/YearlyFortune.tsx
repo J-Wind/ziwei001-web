@@ -152,8 +152,17 @@ function buildYearlyContext(
   year: number
 ): string {
   const lines: string[] = []
-  const yearly = horoscope.yearly
-  const decadal = horoscope.decadal
+  const yearly = horoscope?.yearly
+  const decadal = horoscope?.decadal
+
+  // 安全检查：如果流年数据不完整，返回基础信息
+  if (!yearly || !yearly.heavenlyStem || !Array.isArray(yearly.mutagen)) {
+    lines.push('【流年盘信息】')
+    lines.push('')
+    lines.push(`- 流年：${year}年`)
+    lines.push('- 流年四化：待计算')
+    return lines.join('\n')
+  }
 
   lines.push('【流年盘信息】')
   lines.push('')
@@ -161,15 +170,19 @@ function buildYearlyContext(
   // 流年基础信息
   lines.push('## 流年基础')
   lines.push(`- 流年：${year}年（${yearly.heavenlyStem}${yearly.earthlyBranch}年）`)
-  lines.push(`- 流年四化：${yearly.mutagen.join('、')}`)
-  lines.push(`- 流年命宫位置：${yearly.palaceNames[0]}`)
+  lines.push(`- 流年四化：${Array.isArray(yearly.mutagen) ? yearly.mutagen.join('、') : '无'}`)
+  lines.push(`- 流年命宫位置：${yearly.palaceNames && yearly.palaceNames[0] ? yearly.palaceNames[0] : '未知'}`)
   lines.push('')
 
   // 大限信息
   lines.push('## 当前大限')
-  lines.push(`- 大限天干：${decadal.heavenlyStem}`)
-  lines.push(`- 大限四化：${decadal.mutagen.join('、')}`)
-  lines.push(`- 大限命宫位置：${decadal.palaceNames[0]}`)
+  if (decadal && decadal.heavenlyStem) {
+    lines.push(`- 大限天干：${decadal.heavenlyStem}`)
+    lines.push(`- 大限四化：${Array.isArray(decadal.mutagen) ? decadal.mutagen.join('、') : '无'}`)
+    lines.push(`- 大限命宫位置：${decadal.palaceNames && decadal.palaceNames[0] ? decadal.palaceNames[0] : '未知'}`)
+  } else {
+    lines.push('- 大限信息：待计算')
+  }
   lines.push('')
 
   // 流年各宫分析（重点宫位）
@@ -208,14 +221,14 @@ function buildYearlyContext(
 
 export function YearlyFortune() {
   const { chart, birthInfo } = useChartStore()
-  const { provider, enableThinking, enableWebSearch } = useSettingsStore()
+  const { provider, enableThinking, enableWebSearch, getCost } = useSettingsStore()
   const { 
     yearlyFortune, 
     setYearlyFortune,
     fortuneChatHistory,
     setFortuneChatHistory,
   } = useContentCacheStore()
-  const { requireAuth } = useAuthStore()
+  const { requireAuth, user } = useAuthStore()
 
   const [year, setYear] = useState(currentYear)
   const [fortune, setFortune] = useState(yearlyFortune[currentYear] || '')
@@ -269,6 +282,14 @@ ${yearlyContext}
 
   const handleAnalyze = useCallback(async () => {
     if (!chart || !birthInfo) return
+
+    // 积分检查
+    const cost = getCost('fortune')
+    const points = user?.points ?? 0
+    if (points < cost) {
+      setError(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)
+      return
+    }
 
     setLoading(true)
     setError(null)
