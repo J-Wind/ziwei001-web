@@ -6,7 +6,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { useChartStore, useSettingsStore, useContentCacheStore, useAuthStore } from '@/stores'
+import { useChartStore, useSettingsStore, useContentCacheStore, useAuthStore, usePointsConfigStore } from '@/stores'
 import { streamChat, type ChatMessage, type LLMConfig } from '@/lib/llm'
 import { extractKnowledge, buildPromptContext } from '@/knowledge'
 import { Button, Select } from '@/components/ui'
@@ -221,7 +221,8 @@ function buildYearlyContext(
 
 export function YearlyFortune() {
   const { chart, birthInfo } = useChartStore()
-  const { provider, enableThinking, enableWebSearch, getCost } = useSettingsStore()
+  const { provider, enableThinking, enableWebSearch } = useSettingsStore()
+  const { getCost } = usePointsConfigStore()
   const { 
     yearlyFortune, 
     setYearlyFortune,
