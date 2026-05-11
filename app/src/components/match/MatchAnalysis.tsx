@@ -6,7 +6,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { useSettingsStore, useContentCacheStore, useAuthStore } from '@/stores'
+import { useSettingsStore, useContentCacheStore, useAuthStore, usePointsConfigStore } from '@/stores'
 import { generateChart, type BirthInfo, type Gender } from '@/lib/astro'
 import { extractKnowledge, buildPromptContext } from '@/knowledge'
 import { streamChat, type ChatMessage, type LLMConfig } from '@/lib/llm'
@@ -247,7 +247,8 @@ function PersonInput({ label, value, onChange }: PersonInputProps) {
    ------------------------------------------------------------ */
 
 export function MatchAnalysis() {
-  const { provider, enableThinking, enableWebSearch, getCost } = useSettingsStore()
+  const { provider, enableThinking, enableWebSearch } = useSettingsStore()
+  const { getCost } = usePointsConfigStore()
   const { matchChatHistory, setMatchChatHistory } = useContentCacheStore()
   const { requireAuth, user } = useAuthStore()
 

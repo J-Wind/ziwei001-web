@@ -22,7 +22,7 @@ import {
   Label,
   LabelList,
 } from 'recharts'
-import { useChartStore, useSettingsStore, useContentCacheStore, useAuthStore } from '@/stores'
+import { useChartStore, useSettingsStore, useContentCacheStore, useAuthStore, usePointsConfigStore } from '@/stores'
 import { ScoreRadar } from './ScoreRadar'
 import {
   generateLifetimeKLines,
@@ -258,7 +258,8 @@ function PeakLabel(props: PeakLabelProps) {
 
 export function LifeKLine() {
   const { chart, birthInfo } = useChartStore()
-  const { provider, enableThinking, enableWebSearch, getCost } = useSettingsStore()
+  const { provider, enableThinking, enableWebSearch } = useSettingsStore()
+  const { getCost } = usePointsConfigStore()
   const { klineCache, setKlineCache, klineChatHistory, setKlineChatHistory } = useContentCacheStore()
   const { requireAuth, user } = useAuthStore()
 

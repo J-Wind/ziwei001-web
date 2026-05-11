@@ -34,7 +34,7 @@ const GENDER_OPTIONS = [
 export function BirthForm() {
   const { setBirthInfo, setChart } = useChartStore()
   const { user, requireAuth } = useAuthStore()
-  const { getCost } = useSettingsStore()
+  const { getCost } = usePointsConfigStore()
 
   const [year, setYear] = useState(1990)
   const [month, setMonth] = useState(1)
