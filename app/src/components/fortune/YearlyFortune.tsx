@@ -262,17 +262,24 @@ export function YearlyFortune() {
     if (fortune && currentChatHistory.length === 0 && chart && birthInfo) {
       try {
         const horoscope = chart.horoscope(new Date(`${year}-6-15`))
-        
+
         // 安全检查：确保 horoscope 对象有效
         if (!horoscope || typeof horoscope !== 'object') {
           console.warn('流年数据无效，使用基础信息')
           return
         }
 
+        // 安全检查：确保 yearly 数据存在且有效
+        const yearly = horoscope.yearly
+        if (!yearly || typeof yearly !== 'object') {
+          console.warn('流年 yearly 数据无效，使用基础信息')
+          return
+        }
+
         const knowledge = extractKnowledge(chart, birthInfo.year)
         const natalContext = buildPromptContext(knowledge)
         const yearlyContext = buildYearlyContext(chart, horoscope, year)
-        
+
         const initialUserMessage = `请分析以下命盘的 ${year} 年运势：
 
 ## 基本信息
@@ -286,7 +293,7 @@ ${natalContext}
 ${yearlyContext}
 
 请结合本命盘和流年盘信息，给出详细的 ${year} 年运势分析。`
-        
+
         setFortuneChatHistory(year, [
           { role: 'user', content: initialUserMessage },
           { role: 'assistant', content: fortune },
@@ -313,12 +320,24 @@ ${yearlyContext}
     setFortune('')
 
     try {
-      // 获取流年运限数据
-      const horoscope = chart.horoscope(new Date(`${year}-6-15`))
-      
+      // 获取流年运限数据（添加错误处理防止 iztro 内部报错）
+      let horoscope
+      try {
+        horoscope = chart.horoscope(new Date(`${year}-6-15`))
+      } catch (horoscopeErr) {
+        console.error('计算流年数据失败:', horoscopeErr)
+        throw new Error(`流年数据计算失败（${year}年），可能是该年份超出支持范围，请尝试其他年份`)
+      }
+
       // 安全检查：确保 horoscope 对象有效
       if (!horoscope || typeof horoscope !== 'object') {
         throw new Error('流年数据计算失败，请重试')
+      }
+
+      // 安全检查：确保 yearly 数据存在且有效
+      const yearly = horoscope.yearly
+      if (!yearly || typeof yearly !== 'object') {
+        throw new Error(`流年四化数据获取失败（${year}年），请尝试其他年份`)
       }
 
       // 提取本命盘完整信息

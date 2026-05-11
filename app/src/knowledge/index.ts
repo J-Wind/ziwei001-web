@@ -201,17 +201,22 @@ export function extractKnowledge(chart: FunctionalAstrolabe, birthYear?: number)
     for (let year = startYear; year <= endYear; year++) {
       try {
         const horoscope = chart.horoscope(new Date(`${year}-6-15`))
-        const yearly = horoscope.yearly
+        const yearly = horoscope?.yearly
+
+        // 安全检查：确保 yearly 数据有效
+        if (!yearly || typeof yearly !== 'object') {
+          continue
+        }
 
         context.流年.push({
           year,
           stem: String(yearly.heavenlyStem || ''),
           branch: String(yearly.earthlyBranch || ''),
-          mutagens: (yearly.mutagen || []).map(m => String(m)),
+          mutagens: Array.isArray(yearly.mutagen) ? yearly.mutagen.map(m => String(m)) : [],
           palaceName: String(yearly.palaceNames?.[0] || ''),
         })
       } catch {
-        // 忽略计算错误
+        // 忽略计算错误（某些年份可能超出 iztro 支持范围）
       }
     }
   }

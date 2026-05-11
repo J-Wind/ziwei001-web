@@ -252,7 +252,29 @@ export function calculatePeriodScore(
   chart: FunctionalAstrolabe,
   year: number
 ): FortuneScore {
-  const horoscope = chart.horoscope(new Date(`${year}-6-15`))
+  // 获取流年数据（添加错误处理）
+  let horoscope
+  try {
+    horoscope = chart.horoscope(new Date(`${year}-6-15`))
+  } catch (err) {
+    console.error(`计算 ${year} 年流年数据失败:`, err)
+    // 返回默认值
+    return {
+      total: 50,
+      trend: 'flat',
+      dimensions: { career: 50, wealth: 50, relationship: 50, health: 50 },
+    }
+  }
+
+  // 安全检查
+  if (!horoscope) {
+    return {
+      total: 50,
+      trend: 'flat',
+      dimensions: { career: 50, wealth: 50, relationship: 50, health: 50 },
+    }
+  }
+
   const palaces = chart.palaces
 
   // 计算各宫位得分
@@ -283,7 +305,7 @@ export function calculatePeriodScore(
   }
 
   // 流年四化加成
-  const yearlyMutagen = horoscope.yearly.mutagen || []
+  const yearlyMutagen = Array.isArray(horoscope?.yearly?.mutagen) ? horoscope.yearly.mutagen : []
   let yearlyBonus = 0
   for (const star of yearlyMutagen) {
     const mutagen = star.includes('禄') ? '禄'
