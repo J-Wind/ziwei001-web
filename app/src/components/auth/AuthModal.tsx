@@ -52,15 +52,23 @@ export function AuthModal() {
     e.preventDefault()
     setError('')
 
-    const phoneError = validatePhone(phone.trim())
+    const trimmedPhone = phone.trim()
+    const phoneError = validatePhone(trimmedPhone)
     if (phoneError) {
       setError(phoneError)
       return
     }
+    
     if (!password) {
       setError('请输入密码')
       return
     }
+    
+    if (password.length < 6) {
+      setError('密码至少需要6个字符')
+      return
+    }
+    
     if (!isLogin && password !== confirmPassword) {
       setError('两次输入的密码不一致')
       return
@@ -69,12 +77,13 @@ export function AuthModal() {
     setLoading(true)
     try {
       if (isLogin) {
-        await login(phone.trim(), password)
+        await login(trimmedPhone, password)
       } else {
-        await register(phone.trim(), password, inviteCode.trim().toUpperCase() || undefined)
+        await register(trimmedPhone, password, inviteCode.trim() || undefined)
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : '操作失败，请重试'
+      console.error('注册/登录失败:', { error: msg, phone: trimmedPhone, passwordLength: password?.length })
       setError(msg)
     } finally {
       setLoading(false)
