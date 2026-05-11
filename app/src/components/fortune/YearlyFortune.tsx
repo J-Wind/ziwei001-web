@@ -260,12 +260,20 @@ export function YearlyFortune() {
   // 当有缓存但没有对话历史时，初始化对话历史
   useEffect(() => {
     if (fortune && currentChatHistory.length === 0 && chart && birthInfo) {
-      const horoscope = chart.horoscope(new Date(`${year}-6-15`))
-      const knowledge = extractKnowledge(chart, birthInfo.year)
-      const natalContext = buildPromptContext(knowledge)
-      const yearlyContext = buildYearlyContext(chart, horoscope, year)
-      
-      const initialUserMessage = `请分析以下命盘的 ${year} 年运势：
+      try {
+        const horoscope = chart.horoscope(new Date(`${year}-6-15`))
+        
+        // 安全检查：确保 horoscope 对象有效
+        if (!horoscope || typeof horoscope !== 'object') {
+          console.warn('流年数据无效，使用基础信息')
+          return
+        }
+
+        const knowledge = extractKnowledge(chart, birthInfo.year)
+        const natalContext = buildPromptContext(knowledge)
+        const yearlyContext = buildYearlyContext(chart, horoscope, year)
+        
+        const initialUserMessage = `请分析以下命盘的 ${year} 年运势：
 
 ## 基本信息
 - 出生：${birthInfo.year}年${birthInfo.month}月${birthInfo.day}日
@@ -278,11 +286,14 @@ ${natalContext}
 ${yearlyContext}
 
 请结合本命盘和流年盘信息，给出详细的 ${year} 年运势分析。`
-      
-      setFortuneChatHistory(year, [
-        { role: 'user', content: initialUserMessage },
-        { role: 'assistant', content: fortune },
-      ])
+        
+        setFortuneChatHistory(year, [
+          { role: 'user', content: initialUserMessage },
+          { role: 'assistant', content: fortune },
+        ])
+      } catch (err) {
+        console.error('初始化对话历史失败:', err)
+      }
     }
   }, [fortune, currentChatHistory, year, chart, birthInfo, setFortuneChatHistory])
 
@@ -304,6 +315,11 @@ ${yearlyContext}
     try {
       // 获取流年运限数据
       const horoscope = chart.horoscope(new Date(`${year}-6-15`))
+      
+      // 安全检查：确保 horoscope 对象有效
+      if (!horoscope || typeof horoscope !== 'object') {
+        throw new Error('流年数据计算失败，请重试')
+      }
 
       // 提取本命盘完整信息
       const knowledge = extractKnowledge(chart, birthInfo.year)

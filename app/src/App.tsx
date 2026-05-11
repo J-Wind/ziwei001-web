@@ -88,7 +88,7 @@ export default function App() {
       <header
         className="
           sticky top-0 z-40
-          py-2 xs:py-3 sm:py-4 px-4 xs:px-6 lg:px-12
+          py-2.5 xs:py-3 sm:py-4 px-4 xs:px-6 lg:px-12
           bg-night/70 backdrop-blur-md
           border-b border-gold/20
         "
@@ -97,15 +97,15 @@ export default function App() {
           {/* Logo + 导航 */}
           <div className="flex items-center gap-6 xs:gap-8 sm:gap-10">
             {/* Logo */}
-            <div className="flex items-center gap-2 xs:gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 xs:gap-3 sm:gap-4 flex-shrink-0">
               {/* Logo 图标 */}
-              <img src={logoSvg} alt="紫微卜运 Logo" className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12" />
+              <img src={logoSvg} alt="紫微卜运 Logo" className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 flex-shrink-0" />
               {/* Logo 文字 */}
-              <div>
-                <InkTextTitle className="text-lg xs:text-xl sm:text-2xl">
+              <div className="min-w-0">
+                <InkTextTitle className="text-base xs:text-lg sm:text-2xl whitespace-nowrap overflow-visible">
                   紫微卜运
                 </InkTextTitle>
-                <p className="text-text-muted text-xs xs:text-sm hidden sm:block" style={{ fontFamily: 'var(--font-brush)' }}>
+                <p className="text-text-muted text-[10px] xs:text-xs sm:text-sm hidden sm:block truncate" style={{ fontFamily: 'var(--font-brush)' }}>
                   命理工具
                 </p>
               </div>

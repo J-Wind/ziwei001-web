@@ -204,22 +204,29 @@ export function ShareCard() {
 
     setGenerating(true)
     try {
-      // 等待字体加载完成
       await document.fonts.ready
 
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: '#0a0a12',
-        scale: 3,
+      const card = cardRef.current
+      const rect = card.getBoundingClientRect()
+
+      const canvas = await html2canvas(card, {
+        backgroundColor: '#0c0c18',
+        scale: 4,
         useCORS: true,
         logging: false,
         allowTaint: true,
-        width: cardRef.current.scrollWidth,
-        height: cardRef.current.scrollHeight,
+        width: rect.width,
+        height: rect.height,
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: rect.width,
+        windowHeight: rect.height,
+        x: 0,
+        y: 0,
       })
 
-      const dataUrl = canvas.toDataURL('image/png')
+      const dataUrl = canvas.toDataURL('image/png', 1.0)
 
-      // 创建下载链接
       const link = document.createElement('a')
       link.download = `紫微命格-${ganZhi}${gender}.png`
       link.href = dataUrl
@@ -253,13 +260,12 @@ export function ShareCard() {
       )}
 
       {/* 卡片预览 - 所有颜色硬编码，避免 oklab */}
-      <div className="w-full overflow-hidden flex justify-center">
+      <div className="w-full flex justify-center" style={{ padding: '0' }}>
         <div
           ref={cardRef}
           style={{
-            width: '100%',
-            maxWidth: '360px',
-            aspectRatio: '360/560',
+            width: 'min(100%, 360px)',
+            aspectRatio: '3/4',
             background: '#0c0c18',
             borderRadius: '16px',
             position: 'relative',
@@ -305,23 +311,23 @@ export function ShareCard() {
             left: 0,
             right: 0,
             bottom: 0,
-            padding: 'clamp(20px, 6vh, 36px) clamp(18px, 4.5vw, 30px)',
+            padding: 'clamp(16px, 4.5vh, 28px) clamp(16px, 4vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
           }}>
             {/* 顶部星辰装饰线 */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: 'clamp(8px, 2.5vh, 14px)' }}>
-              <div style={{ width: 'clamp(28px, 7.5vw, 44px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
-              <span style={{ color: 'rgba(212, 175, 55, 0.5)', fontSize: 'clamp(9px, 2.8vw, 11px)', letterSpacing: '0.1em' }}>☆ · ☆ · ☆</span>
-              <div style={{ width: 'clamp(28px, 7.5vw, 44px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: 'clamp(6px, 1.8vh, 10px)' }}>
+              <div style={{ width: 'clamp(24px, 6.5vw, 38px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
+              <span style={{ color: 'rgba(212, 175, 55, 0.5)', fontSize: 'clamp(8px, 2.5vw, 10px)', letterSpacing: '0.1em' }}>☆ · ☆ · ☆</span>
+              <div style={{ width: 'clamp(24px, 6.5vw, 38px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
             </div>
 
             {/* 标题 */}
-            <div style={{ textAlign: 'center', marginBottom: 'clamp(6px, 2vh, 14px)' }}>
+            <div style={{ textAlign: 'center', marginBottom: 'clamp(5px, 1.5vh, 10px)' }}>
               <h2
                 style={{
-                  fontSize: 'clamp(15px, 4.8vw, 19px)',
-                  letterSpacing: '0.2em',
+                  fontSize: 'clamp(14px, 4.2vw, 17px)',
+                  letterSpacing: '0.18em',
                   color: '#FCD34D',
                   fontFamily: FONT_SERIF,
                   margin: 0,
@@ -335,55 +341,58 @@ export function ShareCard() {
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
               <div
                 style={{
-                  fontSize: 'clamp(13px, 4.2vw, 17px)',
-                  lineHeight: '1.75',
+                  fontSize: 'clamp(12px, 3.8vw, 15px)',
+                  lineHeight: '1.8',
                   color: '#FFFBEB',
-                  whiteSpace: 'pre-line',
                   fontFamily: FONT_BRUSH,
                   textAlign: 'center',
-                  padding: '0 10px',
+                  padding: '0 clamp(10px, 3.5vw, 18px)',
                 }}
               >
-                "{displayQuote}"
+                {displayQuote.split('。').filter(s => s.trim()).map((sentence, idx) => (
+                  <div key={idx} style={{ marginBottom: idx < displayQuote.split('。').filter(s => s.trim()).length - 1 ? '0.5em' : '0' }}>
+                    "{sentence.trim()}。"
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* 分隔线 */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: 'clamp(8px, 2.5vh, 14px)' }}>
-              <div style={{ width: 'clamp(38px, 11vw, 60px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
-              <span style={{ color: 'rgba(212, 175, 55, 0.4)', fontSize: 'clamp(9px, 2.8vw, 11px)' }}>❖</span>
-              <div style={{ width: 'clamp(38px, 11vw, 60px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: 'clamp(6px, 1.8vh, 10px)' }}>
+              <div style={{ width: 'clamp(32px, 9.5vw, 52px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
+              <span style={{ color: 'rgba(212, 175, 55, 0.4)', fontSize: 'clamp(8px, 2.5vw, 10px)' }}>❖</span>
+              <div style={{ width: 'clamp(32px, 9.5vw, 52px)', height: '1px', background: 'rgba(212, 175, 55, 0.3)' }} />
             </div>
 
             {/* 命盘信息 */}
             <div style={{ textAlign: 'center' }}>
               <p
                 style={{
-                  fontSize: 'clamp(10px, 3.3vw, 13px)',
+                  fontSize: 'clamp(9px, 3vw, 12px)',
                   letterSpacing: '0.05em',
                   color: 'rgba(252, 211, 77, 0.8)',
                   fontFamily: FONT_SERIF,
-                  margin: '0 0 clamp(3px, 0.8vh, 7px) 0',
+                  margin: '0 0 clamp(2px, 0.6vh, 5px) 0',
                 }}
               >
                 命宫主星：{stars}
               </p>
               {pattern && (
-                <p style={{ fontSize: 'clamp(9px, 2.8vw, 11px)', color: 'rgba(212, 175, 55, 0.6)', margin: '0 0 clamp(2px, 0.4vh, 3px) 0' }}>
+                <p style={{ fontSize: 'clamp(8px, 2.5vw, 10px)', color: 'rgba(212, 175, 55, 0.6)', margin: '0 0 clamp(1.5px, 0.3vh, 2.5px) 0' }}>
                   格局：{pattern}
                 </p>
               )}
-              <p style={{ fontSize: 'clamp(9px, 2.8vw, 11px)', color: 'rgba(212, 175, 55, 0.5)', margin: 0 }}>
+              <p style={{ fontSize: 'clamp(8px, 2.5vw, 10px)', color: 'rgba(212, 175, 55, 0.5)', margin: 0 }}>
                 {fiveElements}
               </p>
             </div>
 
             {/* 印章 + 年份 */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(10px, 3vw, 14px)', marginTop: 'clamp(8px, 2.5vh, 14px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(8px, 2.5vw, 12px)', marginTop: 'clamp(6px, 1.8vh, 10px)' }}>
               <div
                 style={{
-                  width: 'clamp(28px, 7.5vw, 38px)',
-                  height: 'clamp(28px, 7.5vw, 38px)',
+                  width: 'clamp(26px, 7vw, 34px)',
+                  height: 'clamp(26px, 7vw, 34px)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -391,20 +400,20 @@ export function ShareCard() {
                   border: '1px solid rgba(255, 180, 0, 0.4)',
                   background: 'rgba(255, 180, 0, 0.05)',
                   color: 'rgba(212, 175, 55, 0.7)',
-                  fontSize: 'clamp(11px, 3.3vw, 13px)',
+                  fontSize: 'clamp(10px, 3vw, 12px)',
                   fontFamily: FONT_SERIF,
                 }}
               >
                 命
               </div>
-              <p style={{ color: 'rgba(252, 211, 77, 0.6)', fontSize: 'clamp(11px, 3.3vw, 13px)', letterSpacing: '0.1em', margin: 0 }}>
+              <p style={{ color: 'rgba(252, 211, 77, 0.6)', fontSize: 'clamp(10px, 3vw, 12px)', letterSpacing: '0.1em', margin: 0 }}>
                 {ganZhi}年 · {gender}
               </p>
             </div>
 
             {/* 底部水印 */}
-            <div style={{ marginTop: 'clamp(6px, 2vh, 14px)', paddingTop: 'clamp(5px, 1.8vh, 10px)', borderTop: '1px solid rgba(212, 175, 55, 0.1)', textAlign: 'center' }}>
-              <p style={{ color: 'rgba(212, 175, 55, 0.3)', fontSize: 'clamp(9px, 2.8vw, 11px)', letterSpacing: '0.2em', margin: 0 }}>
+            <div style={{ marginTop: 'clamp(5px, 1.5vh, 9px)', paddingTop: 'clamp(4px, 1.4vh, 8px)', borderTop: '1px solid rgba(212, 175, 55, 0.1)', textAlign: 'center' }}>
+              <p style={{ color: 'rgba(212, 175, 55, 0.3)', fontSize: 'clamp(8px, 2.5vw, 10px)', letterSpacing: '0.2em', margin: 0 }}>
                 ─── 紫微卜运 ───
               </p>
             </div>
