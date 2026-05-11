@@ -215,12 +215,12 @@ export function ShareCard() {
         useCORS: true,
         logging: false,
         allowTaint: true,
-        width: rect.width,
-        height: rect.height,
+        width: card.scrollWidth,
+        height: card.scrollHeight,
         scrollX: 0,
         scrollY: 0,
-        windowWidth: rect.width,
-        windowHeight: rect.height,
+        windowWidth: card.scrollWidth,
+        windowHeight: card.scrollHeight,
         x: 0,
         y: 0,
       })
@@ -410,6 +410,8 @@ export function ShareCard() {
                   fontSize: 'clamp(11px, 3.2vw, 13px)',
                   fontFamily: FONT_SERIF,
                   flexShrink: 0,
+                  lineHeight: 1,
+                  padding: 0,
                 }}
               >
                 命
