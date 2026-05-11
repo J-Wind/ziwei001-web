@@ -98,14 +98,15 @@ export interface RechargeOrder {
   processed_by: string | null
   processed_at: string | null
   created_at: string
-  order_no?: string
+  updated_at: string
 }
 
 export const api = {
   auth: {
-    register: (phone: string, password: string, invite_code?: string, ) =>
+    register: (phone: string, password: string, invite_code?: string, captcha_token?: string) =>
       request<AuthResponse>('/api/auth/register', {
         method: 'POST',
+        body: JSON.stringify({ phone, password, invite_code, captcha_token }),
       }),
     login: (phone: string, password: string) =>
       request<AuthResponse>('/api/auth/login', {

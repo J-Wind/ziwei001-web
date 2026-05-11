@@ -5,7 +5,7 @@
 import { useState } from 'react'
 import { Button, Input, Select } from '@/components/ui'
 import { generateChart, getShichenOptions, type BirthInfo, type Gender } from '@/lib/astro'
-import { useChartStore, useAuthStore, useSettingsStore } from '@/stores'
+import { useChartStore } from '@/stores'
 
 const currentYear = new Date().getFullYear()
 
@@ -33,8 +33,6 @@ const GENDER_OPTIONS = [
 
 export function BirthForm() {
   const { setBirthInfo, setChart } = useChartStore()
-  const { user, requireAuth } = useAuthStore()
-  const { getCost } = useSettingsStore()
 
   const [year, setYear] = useState(1990)
   const [month, setMonth] = useState(1)
@@ -43,23 +41,8 @@ export function BirthForm() {
   const [gender, setGender] = useState<Gender>('male')
   const [loading, setLoading] = useState(false)
 
-  // 检查积分是否足够
-  const checkPoints = (actionKey: string): boolean => {
-    const cost = getCost(actionKey)
-    const points = user?.points ?? 0
-    if (points < cost) {
-      alert(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)
-      return false
-    }
-    return true
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    // 检查积分
-    if (!checkPoints('chart')) return
-
     setLoading(true)
 
     try {
@@ -80,8 +63,8 @@ export function BirthForm() {
       onSubmit={handleSubmit}
       className="
         relative w-full max-w-lg
-        mx-3 sm:mx-0
-        py-5 px-4 xs:py-6 xs:px-6 sm:py-8 sm:px-8
+        mx-2 sm:mx-0
+        py-4 px-4 xs:py-6 xs:px-6 sm:py-8 sm:px-8
         bg-gradient-to-br from-white/[0.06] to-white/[0.02]
         backdrop-blur-xl border border-white/[0.08] rounded-2xl
         shadow-[0_8px_40px_rgba(0,0,0,0.3)]
@@ -97,10 +80,10 @@ export function BirthForm() {
       />
 
       {/* 标题区域 */}
-      <div className="text-center mb-4 xs:mb-5 sm:mb-8">
+      <div className="text-center mb-3 xs:mb-4 sm:mb-8">
         <h2
           className="
-            text-base xs:text-xl sm:text-2xl font-semibold mb-1.5 xs:mb-2
+            text-lg xs:text-xl sm:text-2xl font-semibold mb-1
             bg-gradient-to-r from-text via-text-secondary to-text
             bg-clip-text text-transparent
           "
@@ -108,14 +91,14 @@ export function BirthForm() {
         >
           输入您的出生信息
         </h2>
-        <p className="text-[11px] xs:text-xs sm:text-sm text-text-muted">
+        <p className="text-[10px] xs:text-xs sm:text-sm text-text-muted">
           精准排盘，探索命运轨迹
         </p>
       </div>
 
-      <div className="space-y-3.5 xs:space-y-4 sm:space-y-6">
+      <div className="space-y-3 xs:space-y-4 sm:space-y-6">
         {/* 出生日期区块 */}
-        <div className="space-y-2 xs:space-y-2 sm:space-y-3">
+        <div className="space-y-1.5 xs:space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-[11px] xs:text-xs sm:text-sm text-text-secondary font-medium">出生日期</span>
             <span
@@ -156,7 +139,7 @@ export function BirthForm() {
         />
 
         {/* 性别选择 - 胶囊按钮组 */}
-        <div className="space-y-1.5 xs:space-y-1.5 sm:space-y-2">
+        <div className="space-y-1 xs:space-y-1.5 sm:space-y-2">
           <span className="text-[11px] xs:text-xs sm:text-sm text-text-secondary font-medium">性别</span>
           <div className="flex gap-2 xs:gap-3">
             {GENDER_OPTIONS.map((opt) => (
@@ -245,7 +228,7 @@ export function BirthForm() {
       </div>
 
       {/* 底部提示 */}
-      <p className="text-xs sm:text-sm text-text-muted text-center mt-4 xs:mt-5 sm:mt-6 flex items-center justify-center gap-1 xs:gap-1.5">
+      <p className="text-xs sm:text-sm text-text-muted text-center mt-3 xs:mt-4 sm:mt-6 flex items-center justify-center gap-1 xs:gap-1.5">
         <svg className="w-3 xs:w-3.5 h-3 xs:h-3.5 text-star-light" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
         </svg>
