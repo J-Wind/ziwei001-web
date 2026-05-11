@@ -103,10 +103,10 @@ export interface RechargeOrder {
 
 export const api = {
   auth: {
-    register: (phone: string, password: string, invite_code?: string, captcha_token?: string) =>
+    register: (phone: string, password: string, invite_code?: string) =>
       request<AuthResponse>('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify({ phone, password, invite_code, captcha_token }),
+        body: JSON.stringify({ phone, password, invite_code: invite_code || null }),
       }),
     login: (phone: string, password: string) =>
       request<AuthResponse>('/api/auth/login', {
