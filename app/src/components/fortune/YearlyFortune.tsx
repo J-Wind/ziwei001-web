@@ -222,9 +222,9 @@ function buildYearlyContext(
 export function YearlyFortune() {
   const { chart, birthInfo } = useChartStore()
   const { provider, enableThinking, enableWebSearch } = useSettingsStore()
-  const { getCost } = usePointsConfigStore()
-  const { 
-    yearlyFortune, 
+  const { getCost, load: loadPointsConfig } = usePointsConfigStore()
+  const {
+    yearlyFortune,
     setYearlyFortune,
     fortuneChatHistory,
     setFortuneChatHistory,
@@ -235,6 +235,11 @@ export function YearlyFortune() {
   const [fortune, setFortune] = useState(yearlyFortune[currentYear] || '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // 加载积分配置
+  useEffect(() => {
+    loadPointsConfig()
+  }, [loadPointsConfig])
   
   // 获取当前年份的对话历史
   const currentChatHistory = fortuneChatHistory[year] || []

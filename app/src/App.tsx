@@ -72,6 +72,11 @@ export default function App() {
     loadPointsConfig()
   }, [])
 
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* 全局滚动条样式 */}
@@ -83,24 +88,24 @@ export default function App() {
       <header
         className="
           sticky top-0 z-40
-          py-4 px-6 lg:px-12
+          py-2 xs:py-3 sm:py-4 px-4 xs:px-6 lg:px-12
           bg-night/70 backdrop-blur-md
           border-b border-gold/20
         "
       >
         <div className="max-w-[1600px] mx-auto flex items-center justify-between">
           {/* Logo + 导航 */}
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-6 xs:gap-8 sm:gap-10">
             {/* Logo */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 xs:gap-3 sm:gap-4">
               {/* Logo 图标 */}
-              <img src={logoSvg} alt="紫微卜运 Logo" className="w-12 h-12" />
+              <img src={logoSvg} alt="紫微卜运 Logo" className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12" />
               {/* Logo 文字 */}
               <div>
-                <InkTextTitle className="text-2xl">
+                <InkTextTitle className="text-lg xs:text-xl sm:text-2xl">
                   紫微卜运
                 </InkTextTitle>
-                <p className="text-text-muted text-sm hidden sm:block" style={{ fontFamily: 'var(--font-brush)' }}>
+                <p className="text-text-muted text-xs xs:text-sm hidden sm:block" style={{ fontFamily: 'var(--font-brush)' }}>
                   命理工具
                 </p>
               </div>
@@ -111,7 +116,7 @@ export default function App() {
               {TABS.map((tab) => (
                 <button
                   key={tab.key}
-                  onClick={() => setActiveTab(tab.key)}
+                  onClick={() => handleTabChange(tab.key)}
                   className={`
                     group relative px-5 py-2.5 rounded-xl
                     text-sm font-medium transition-all duration-300
@@ -120,8 +125,7 @@ export default function App() {
                       ? 'text-text'
                       : 'text-text-muted hover:text-text-secondary'
                     }
-                  `}
-                >
+                  `}>
                   {/* 背景 */}
                   <span
                     className={`
@@ -163,24 +167,18 @@ export default function App() {
             <button
               onClick={() => setShowPersonalCenter(true)}
               className="
-                group relative px-4 py-2 rounded-xl
-                bg-purple-900/20 border border-gold/20
-                hover:bg-purple-900/30 hover:border-gold/40
+                group relative
                 transition-all duration-300
-                flex items-center gap-2.5
                 ink-ripple-click
               "
               title="个人中心"
             >
-              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-star/40 to-gold/20 border border-gold/30 flex items-center justify-center text-sm overflow-hidden">
+              <span className="w-9 h-9 xs:w-10 xs:h-10 rounded-full bg-gradient-to-br from-star/40 to-gold/20 border border-gold/30 hover:border-gold/60 flex items-center justify-center text-base xs:text-lg overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_4px_16px_rgba(212,175,55,0.3)] transition-all">
                 {user?.avatar_url ? (
                   <img src={user.avatar_url} alt="" className="w-full h-full object-cover" />
                 ) : (
                   <span className="text-gold/60">🧑</span>
                 )}
-              </span>
-              <span className="text-sm text-text-secondary group-hover:text-gold transition-colors hidden sm:inline" style={{ fontFamily: 'var(--font-brush)' }}>
-                {user?.display_name || user?.username}
               </span>
             </button>
           ) : (
@@ -207,18 +205,19 @@ export default function App() {
       <nav
         className="
           md:hidden fixed bottom-0 left-0 right-0 z-40
-          px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]
-          bg-night/85 backdrop-blur-md
+          px-3 xs:px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]
+          bg-night/90 backdrop-blur-lg
           border-t border-gold/20
+          shadow-[0_-4px_20px_rgba(0,0,0,0.3)]
         "
       >
         <div className="flex justify-around max-w-lg mx-auto w-full">
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => handleTabChange(tab.key)}
               className={`
-                flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg
+                flex flex-col items-center justify-center gap-1 xs:gap-1.5 px-3 py-3 rounded-xl
                 transition-all duration-300
                 ink-ripple-click relative flex-1 min-w-0
                 ${activeTab === tab.key
@@ -229,10 +228,10 @@ export default function App() {
             >
               {/* 选中背景 */}
               {activeTab === tab.key && (
-                <span className="absolute inset-0 rounded-lg bg-gradient-to-t from-purple-600/20 to-transparent border border-gold/20" />
+                <span className="absolute inset-0 rounded-xl bg-gradient-to-t from-purple-600/25 to-transparent border border-gold/25" />
               )}
-              <span className="relative text-xl leading-none">{tab.icon}</span>
-              <span className="relative text-[10px] leading-tight truncate w-full text-center" style={{ fontFamily: 'var(--font-brush)' }}>{tab.label}</span>
+              <span className="relative text-2xl xs:text-[1.75rem] leading-none">{tab.icon}</span>
+              <span className="relative text-[10px] xs:text-xs leading-tight truncate w-full text-center font-medium" style={{ fontFamily: 'var(--font-brush)' }}>{tab.label}</span>
               {/* 选中指示点 */}
               {activeTab === tab.key && (
                 <span className="absolute -top-0.5 w-1.5 h-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(251,191,36,0.7)]" />
@@ -243,7 +242,7 @@ export default function App() {
       </nav>
 
       {/* 主内容 - 水墨玄紫风格 */}
-      <main className="flex-1 px-4 lg:px-12 py-8 pb-24 md:pb-8 relative">
+      <main className="flex-1 px-4 xs:px-6 lg:px-12 py-6 xs:py-8 pb-28 xs:pb-28 md:pb-8 relative">
         {/* 装饰性八卦盘 - 背景 */}
         <div className="absolute right-12 top-12 opacity-20 pointer-events-none hidden lg:block">
           <BaguaDecoration size={180} rotate={true} />
@@ -256,7 +255,7 @@ export default function App() {
           {/* 命盘解读标签 */}
           {activeTab === 'chart' && (
             !chart ? (
-              <div className="flex items-center justify-center min-h-[calc(100vh-140px)] px-2">
+              <div className="flex items-center justify-center min-h-[calc(100vh-11rem)] xs:min-h-[calc(100vh-13rem)] sm:min-h-[calc(100vh-140px)] px-3 xs:px-4 py-4 xs:py-6">
                 <BirthForm />
               </div>
             ) : (

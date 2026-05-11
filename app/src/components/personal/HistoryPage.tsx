@@ -202,24 +202,46 @@ export function HistoryPage({ onClose }: HistoryPageProps) {
         ">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
 
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-xl font-semibold text-gold flex items-center gap-2" style={{ fontFamily: 'var(--font-serif)' }}>
-                  <span>{typeInfo.icon}</span>
-                  {selectedHistory.title || typeInfo.label}
+          <div className="sticky top-0 z-10 bg-gradient-to-br from-[#121228] to-[#0a0a15] backdrop-blur-xl p-4 xs:p-5 sm:p-6 pb-3 xs:pb-4 border-b border-white/[0.06] rounded-t-2xl">
+            <div className="flex items-center justify-between mb-3 xs:mb-4">
+              <div className="flex-1 min-w-0 pr-2">
+                <h2 className="text-lg xs:text-xl font-semibold text-gold flex items-center gap-1.5 xs:gap-2 truncate" style={{ fontFamily: 'var(--font-serif)' }}>
+                  <span className="flex-shrink-0">{typeInfo.icon}</span>
+                  <span className="truncate">{selectedHistory.title || typeInfo.label}</span>
                 </h2>
-                <p className="text-text-muted text-xs mt-1">{formatDate(selectedHistory.created_at)}</p>
+                <p className="text-text-muted text-[10px] xs:text-xs mt-0.5">{formatDate(selectedHistory.created_at)}</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3 xs:gap-4 flex-shrink-0">
                 <button
                   onClick={() => handleDelete(selectedHistory.id)}
                   disabled={deleting === selectedHistory.id}
-                  className="text-xs px-3 py-1.5 rounded-lg bg-misfortune/20 text-misfortune hover:bg-misfortune/30 transition-all disabled:opacity-50"
+                  className="
+                    p-2 xs:p-2.5 rounded-xl bg-misfortune/20 text-misfortune
+                    hover:bg-misfortune/30 transition-all disabled:opacity-50
+                    hover:scale-105 active:scale-95
+                    shadow-[0_2px_8px_rgba(220,38,38,0.15)]
+                  "
+                  title="删除记录"
                 >
-                  {deleting === selectedHistory.id ? '...' : '删除'}
+                  {deleting === selectedHistory.id ? (
+                    <svg className="w-4 h-4 xs:w-4.5 xs:h-4.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4.5 h-4.5 xs:w-5 xs:h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  )}
                 </button>
-                <button onClick={() => setSelectedHistory(null)} className="text-text-muted hover:text-gold transition-colors text-xl">
+                <button
+                  onClick={() => setSelectedHistory(null)}
+                  className="
+                    text-text-muted hover:text-gold transition-colors
+                    text-xl xs:text-2xl p-1.5 xs:p-2 rounded-lg
+                    hover:bg-white/5
+                  "
+                >
                   ✕
                 </button>
               </div>

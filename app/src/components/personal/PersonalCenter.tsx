@@ -113,7 +113,7 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 xs:mx-2"
       onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="
         relative w-full max-w-lg max-h-[90vh] overflow-y-auto
@@ -124,20 +124,20 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
       ">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
 
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gold" style={{ fontFamily: 'var(--font-serif)' }}>
+        <div className="p-4 xs:p-5 sm:p-6">
+          <div className="flex items-center justify-between mb-4 xs:mb-5 sm:mb-6">
+            <h2 className="text-lg xs:text-xl font-semibold text-gold" style={{ fontFamily: 'var(--font-serif)' }}>
               个人中心
             </h2>
-            <button onClick={onClose} className="text-text-muted hover:text-gold transition-colors text-xl">
+            <button onClick={onClose} className="text-text-muted hover:text-gold transition-colors text-lg xs:text-xl">
               ✕
             </button>
           </div>
 
           {/* 头像 + 信息 */}
-          <div className="flex flex-col items-center mb-6">
+          <div className="flex flex-col items-center mb-4 xs:mb-5 sm:mb-6">
             <div
-              className="w-20 h-20 rounded-full bg-gradient-to-br from-star/30 to-gold/20 border border-gold/30 flex items-center justify-center text-4xl mb-3 cursor-pointer hover:opacity-80 transition-opacity relative overflow-hidden"
+              className="w-16 xs:w-20 h-16 xs:h-20 rounded-full bg-gradient-to-br from-star/30 to-gold/20 border border-gold/30 flex items-center justify-center text-3xl xs:text-4xl mb-2 xs:mb-3 cursor-pointer hover:opacity-80 transition-opacity relative overflow-hidden"
               onClick={() => fileRef.current?.click()}
               title="点击更换头像"
             >
@@ -187,7 +187,7 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <p className="text-text text-lg font-medium" style={{ fontFamily: 'var(--font-brush)' }}>
+                  <p className="text-text text-base xs:text-lg font-medium" style={{ fontFamily: 'var(--font-brush)' }}>
                     {user?.display_name || user?.username}
                   </p>
                   <button
@@ -256,23 +256,23 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
           </div>
 
           {/* 积分展示 */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-star/10 to-gold/5 border border-gold/10 mb-4">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-text-secondary text-sm">当前积分</span>
-              <span className="text-2xl font-bold text-gold">{user?.points ?? 0}</span>
+          <div className="p-3 xs:p-4 rounded-xl bg-gradient-to-r from-star/10 to-gold/5 border border-gold/10 mb-3 xs:mb-4">
+            <div className="flex items-center justify-between mb-3 xs:mb-4">
+              <span className="text-text-secondary text-xs xs:text-sm">当前积分</span>
+              <span className="text-xl xs:text-2xl font-bold text-gold">{user?.points ?? 0}</span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-1.5 xs:gap-2">
               <button
                 onClick={() => setShowRechargeNotice(true)}
                 className="
-                  flex flex-col items-center justify-center gap-1
-                  py-3 px-2 rounded-xl
+                  flex flex-col items-center justify-center gap-0.5 xs:gap-1
+                  py-2 xs:py-3 px-1.5 xs:px-2 rounded-xl
                   bg-gradient-to-br from-gold/20 to-gold/5
                   border border-gold/30
-                  text-gold text-xs font-medium
+                  text-gold text-[10px] xs:text-xs font-medium
                   hover:from-gold/30 hover:to-gold/10
                   active:scale-95
-                  transition-all duration-200
+                  transition-all duration-200 whitespace-nowrap
                 "
               >
                 <span>充值积分</span>
@@ -280,14 +280,14 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
               <button
                 onClick={() => setShowRechargeHistory(true)}
                 className="
-                  flex flex-col items-center justify-center gap-1
-                  py-3 px-2 rounded-xl
+                  flex flex-col items-center justify-center gap-0.5 xs:gap-1
+                  py-2 xs:py-3 px-1.5 xs:px-2 rounded-xl
                   bg-gradient-to-br from-white/10 to-white/5
                   border border-white/20
-                  text-text-secondary text-xs font-medium
+                  text-text-secondary text-[10px] xs:text-xs font-medium
                   hover:from-white/15 hover:to-white/8
                   active:scale-95
-                  transition-all duration-200
+                  transition-all duration-200 whitespace-nowrap
                 "
               >
                 <span>充值记录</span>
@@ -295,14 +295,14 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
               <button
                 onClick={() => setShowHistory(true)}
                 className="
-                  flex flex-col items-center justify-center gap-1
-                  py-3 px-2 rounded-xl
+                  flex flex-col items-center justify-center gap-0.5 xs:gap-1
+                  py-2 xs:py-3 px-1.5 xs:px-2 rounded-xl
                   bg-gradient-to-br from-white/10 to-white/5
                   border border-white/20
-                  text-text-secondary text-xs font-medium
+                  text-text-secondary text-[10px] xs:text-xs font-medium
                   hover:from-white/15 hover:to-white/8
                   active:scale-95
-                  transition-all duration-200
+                  transition-all duration-200 whitespace-nowrap
                 "
               >
                 <span>历史记录</span>
@@ -310,14 +310,14 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
               <button
                 onClick={loadLog}
                 className="
-                  flex flex-col items-center justify-center gap-1
-                  py-3 px-2 rounded-xl
+                  flex flex-col items-center justify-center gap-0.5 xs:gap-1
+                  py-2 xs:py-3 px-1.5 xs:px-2 rounded-xl
                   bg-gradient-to-br from-white/10 to-white/5
                   border border-white/20
-                  text-text-secondary text-xs font-medium
+                  text-text-secondary text-[10px] xs:text-xs font-medium
                   hover:from-white/15 hover:to-white/8
                   active:scale-95
-                  transition-all duration-200
+                  transition-all duration-200 whitespace-nowrap
                 "
               >
                 <span>{showLog ? '收起' : '积分流水'}</span>
@@ -362,16 +362,16 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
           </div>
 
           {/* 兑换码 */}
-          <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-4">
-            <p className="text-text-secondary text-sm mb-3">兑换码</p>
-            <div className="flex gap-2">
+          <div className="p-3 xs:p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-3 xs:mb-4">
+            <p className="text-text-secondary text-xs xs:text-sm mb-2 xs:mb-3">兑换码</p>
+            <div className="flex gap-1.5 xs:gap-2">
               <input
                 type="text"
                 value={redeemCode}
                 onChange={(e) => setRedeemCode(e.target.value)}
                 placeholder="输入兑换码"
                 className="
-                  flex-1 px-4 py-2.5 rounded-xl text-sm
+                  flex-1 px-3 xs:px-4 py-2 rounded-lg xs:rounded-xl text-xs xs:text-sm
                   bg-white/[0.04] border border-white/[0.08]
                   text-text placeholder-text-muted
                   focus:outline-none focus:border-star/50
@@ -383,9 +383,9 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
                 onClick={handleRedeem}
                 disabled={redeeming || !redeemCode.trim()}
                 className="
-                  px-5 py-2.5 rounded-xl
+                  px-3 xs:px-5 py-2 rounded-lg xs:rounded-xl
                   bg-gradient-to-r from-star to-star-dark
-                  text-white text-sm font-medium
+                  text-white text-xs xs:text-sm font-medium whitespace-nowrap
                   hover:from-star-light hover:to-star
                   disabled:opacity-50 disabled:cursor-not-allowed
                   transition-all duration-200
@@ -402,11 +402,11 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
           </div>
 
           {/* 消耗参考 */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04] mb-6">
-            <p className="text-text-muted text-xs mb-2">各操作消耗积分参考：</p>
-            <div className="space-y-1.5">
+          <div className="p-3 xs:p-4 rounded-xl bg-white/[0.02] border border-white/[0.04] mb-4 xs:mb-6">
+            <p className="text-text-muted text-[10px] xs:text-xs mb-1.5 xs:mb-2">各操作消耗积分参考：</p>
+            <div className="space-y-1 xs:space-y-1.5">
               {configs.map((c) => (
-                <div key={c.key} className="flex items-center justify-between text-xs">
+                <div key={c.key} className="flex items-center justify-between text-[10px] xs:text-xs">
                   <span className="text-text-muted">{c.name}</span>
                   <span className="text-gold/80">{c.cost} 积分/次</span>
                 </div>
@@ -417,7 +417,7 @@ export function PersonalCenter({ onClose }: { onClose: () => void }) {
           <button
             onClick={() => { logout(); onClose() }}
             className="
-              w-full py-3 rounded-xl text-sm
+              w-full py-2 xs:py-3 rounded-xl text-xs xs:text-sm
               bg-white/[0.04] border border-white/[0.08]
               text-text-muted hover:text-misfortune hover:border-misfortune/30
               transition-all duration-200
