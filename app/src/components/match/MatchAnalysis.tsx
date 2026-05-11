@@ -12,6 +12,7 @@ import { extractKnowledge, buildPromptContext } from '@/knowledge'
 import { streamChat, type ChatMessage, type LLMConfig } from '@/lib/llm'
 import { Button, Select } from '@/components/ui'
 import { FollowUpQuestion } from '@/components/FollowUpQuestion'
+import { config } from '@/config/environment'
 
 /* ------------------------------------------------------------
    年份/月份/日期选项
@@ -99,16 +100,16 @@ export const MATCH_SYSTEM_PROMPT = `# Role
 
 const MarkdownComponents = {
   h1: ({ children }: { children?: React.ReactNode }) => (
-    <h1 className="text-2xl font-bold text-gold mt-6 mb-3 first:mt-0">{children}</h1>
+    <h1 className="text-xl md:text-2xl font-bold text-gold mt-5 md:mt-6 mb-2 md:mb-3 first:mt-0">{children}</h1>
   ),
   h2: ({ children }: { children?: React.ReactNode }) => (
-    <h2 className="text-xl font-semibold text-gold/90 mt-5 mb-2">{children}</h2>
+    <h2 className="text-lg md:text-xl font-semibold text-gold/90 mt-4 md:mt-5 mb-1.5 md:mb-2">{children}</h2>
   ),
   h3: ({ children }: { children?: React.ReactNode }) => (
-    <h3 className="text-lg font-medium text-star-light mt-4 mb-2">{children}</h3>
+    <h3 className="text-base md:text-lg font-medium text-star-light mt-3 md:mt-4 mb-1.5 md:mb-2">{children}</h3>
   ),
   p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="mb-3 leading-relaxed">{children}</p>
+    <p className="mb-2.5 md:mb-3 leading-relaxed">{children}</p>
   ),
   strong: ({ children }: { children?: React.ReactNode }) => (
     <strong className="text-gold font-semibold">{children}</strong>
@@ -174,20 +175,20 @@ function PersonInput({ label, value, onChange }: PersonInputProps) {
   return (
     <div
       className="
-        relative p-5
+        relative p-3 md:p-5
         bg-gradient-to-br from-white/[0.04] to-transparent
         backdrop-blur-xl border border-white/[0.08] rounded-xl
         shadow-[0_4px_20px_rgba(0,0,0,0.2)]
       "
     >
       <h3
-        className="text-lg font-medium mb-4 bg-gradient-to-r from-star-light to-gold bg-clip-text text-transparent"
+        className="text-base md:text-lg font-medium mb-2.5 md:mb-4 bg-gradient-to-r from-star-light to-gold bg-clip-text text-transparent"
         style={{ fontFamily: 'var(--font-serif)' }}
       >
         {label}
       </h3>
-      <div className="space-y-3">
-        <div className="grid grid-cols-3 gap-2">
+      <div className="space-y-2.5 md:space-y-3">
+        <div className="grid grid-cols-3 gap-1.5 md:gap-2">
           <Select
             label="年"
             options={YEAR_OPTIONS}
@@ -218,7 +219,7 @@ function PersonInput({ label, value, onChange }: PersonInputProps) {
             <label
               key={opt.value}
               className={`
-                flex-1 py-2 px-3 rounded-lg text-center text-sm cursor-pointer transition-all
+                flex-1 py-1.5 md:py-2 px-2 md:px-3 rounded-lg text-center text-xs md:text-sm cursor-pointer transition-all
                 ${value.gender === opt.value
                   ? 'bg-star text-white'
                   : 'bg-white/5 border border-white/10 hover:bg-white/10'
@@ -246,9 +247,9 @@ function PersonInput({ label, value, onChange }: PersonInputProps) {
    ------------------------------------------------------------ */
 
 export function MatchAnalysis() {
-  const { provider, enableThinking, enableWebSearch } = useSettingsStore()
+  const { provider, enableThinking, enableWebSearch, getCost } = useSettingsStore()
   const { matchChatHistory, setMatchChatHistory } = useContentCacheStore()
-  const { requireAuth } = useAuthStore()
+  const { requireAuth, user } = useAuthStore()
 
   const [person1, setPerson1] = useState<BirthInfo>({
     year: 1990, month: 1, day: 1, hour: 12, gender: 'male',
@@ -303,6 +304,14 @@ ${context2}
   }, [result, matchChatHistory, person1, person2, setMatchChatHistory])
 
   const handleAnalyze = useCallback(async () => {
+    // 积分检查
+    const cost = getCost('match')
+    const points = user?.points ?? 0
+    if (points < cost) {
+      setError(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)
+      return
+    }
+
     setLoading(true)
     setError(null)
     setResult('')
@@ -355,7 +364,7 @@ ${context2}
 
       // 保存到服务器历史记录
       try {
-        await fetch('/api/user/history', {
+        await fetch(`${config.apiBaseUrl}/api/user/history`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -377,11 +386,11 @@ ${context2}
   }, [person1, person2, llmConfig, setMatchChatHistory])
 
   return (
-    <div className="animate-fade-in space-y-8 max-w-6xl mx-auto">
+    <div className="animate-fade-in space-y-4 md:space-y-8 max-w-6xl mx-auto">
       {/* 顶部：双人信息输入 + 按钮 */}
       <div
         className="
-          relative p-6 lg:p-8
+          relative p-4 md:p-6 lg:p-8
           bg-gradient-to-br from-white/[0.04] to-transparent
           backdrop-blur-xl border border-white/[0.08] rounded-2xl
           shadow-[0_8px_32px_rgba(0,0,0,0.3)]
@@ -398,7 +407,7 @@ ${context2}
 
         <h2
           className="
-            text-xl lg:text-2xl font-semibold mb-6
+            text-lg md:text-xl lg:text-2xl font-semibold mb-3 md:mb-6
             bg-gradient-to-r from-gold via-gold-light to-gold
             bg-clip-text text-transparent
           "
@@ -408,7 +417,7 @@ ${context2}
         </h2>
 
         {/* 双人信息输入区 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
           <PersonInput label="第一人" value={person1} onChange={setPerson1} />
           <PersonInput label="第二人" value={person2} onChange={setPerson2} />
         </div>
@@ -441,7 +450,7 @@ ${context2}
       {/* 下方：分析结果 */}
       <div
         className="
-          relative p-6 lg:p-8
+          relative p-4 md:p-6 lg:p-8
           bg-gradient-to-br from-white/[0.04] to-transparent
           backdrop-blur-xl border border-white/[0.08] rounded-2xl
           shadow-[0_8px_32px_rgba(0,0,0,0.3)]
@@ -458,7 +467,7 @@ ${context2}
 
         {/* 未分析提示 */}
         {!result && !loading && (
-          <div className="text-text-muted text-sm py-8 text-center">
+          <div className="text-text-muted text-sm py-6 md:py-8 text-center">
             <div className="text-3xl mb-3 opacity-30">⚭</div>
             输入双方信息并点击「开始合盘分析」
           </div>
@@ -466,7 +475,7 @@ ${context2}
 
         {/* 加载中 */}
         {loading && !result && (
-          <div className="flex items-center justify-center gap-3 text-text-muted py-12">
+          <div className="flex items-center justify-center gap-3 text-text-muted py-8 md:py-12">
             <div className="w-5 h-5 border-2 border-star border-t-transparent rounded-full animate-spin" />
             <span>正在分析两人契合度...</span>
           </div>
@@ -478,7 +487,7 @@ ${context2}
             <div
               className="
                 prose prose-invert max-w-none
-                text-text-secondary text-lg lg:text-xl leading-loose
+                text-text-secondary text-base md:text-lg lg:text-xl leading-relaxed md:leading-loose
               "
               style={{ fontFamily: 'var(--font-brush)' }}
             >

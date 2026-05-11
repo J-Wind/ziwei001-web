@@ -29,8 +29,9 @@ import {
   generateKLinesWithLLM,
   type LifetimeKLinePoint,
 } from '@/lib/fortune-score'
-import { type LLMConfig, type ChatMessage } from '@/lib/llm'
+import { type LLMConfig } from '@/lib/llm'
 import { FollowUpQuestion } from '@/components/FollowUpQuestion'
+import { config } from '@/config/environment'
 
 /* ============================================================
    K 线系统提示词
@@ -94,16 +95,16 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   const randomStars = getRandomStars(4)
 
   return (
-    <div className="bg-night/95 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gold/30 z-50 w-[300px] min-w-[300px] max-w-[300px] box-border">
+    <div className="bg-night/95 backdrop-blur-md p-3 md:p-4 rounded-xl shadow-2xl border border-gold/30 z-50 w-[260px] md:w-[300px] min-w-[260px] md:min-w-[300px] max-w-[260px] md:max-w-[300px] box-border">
       {/* ─── Header ─── */}
-      <div className="flex justify-between items-center mb-4 border-b border-gold/20 pb-2">
+      <div className="flex justify-between items-center mb-3 md:mb-4 border-b border-gold/20 pb-1.5 md:pb-2">
         <div>
-          <p className="text-xl font-bold text-white" style={{ fontFamily: 'var(--font-brush)' }}>
+          <p className="text-lg md:text-xl font-bold text-white" style={{ fontFamily: 'var(--font-brush)' }}>
             {data.year} {data.ganZhi}年
-            <span className="text-sm text-text-muted ml-2">({data.age}岁)</span>
+            <span className="text-xs md:text-sm text-text-muted ml-1 md:ml-2">({data.age}岁)</span>
           </p>
         </div>
-        <div className="text-base font-bold px-3 py-1.5 rounded-lg" style={{
+        <div className="text-sm md:text-base font-bold px-2 md:px-3 py-1 md:py-1.5 rounded-lg" style={{
           backgroundColor: data.score >= 80 ? '#22c55e25' :
                            data.score >= 60 ? '#22c55e20' :
                            data.score >= 40 ? '#fbbf2420' :
@@ -118,44 +119,44 @@ function CustomTooltip({ active, payload }: TooltipProps) {
       </div>
 
       {/* ─── 大运信息 ─── */}
-      <div className="text-center text-base font-brush text-star-light mb-3">
+      <div className="text-center text-sm md:text-base font-brush text-star-light mb-2 md:mb-3">
         大运：{data.daYun} ({data.daYunRange})
       </div>
 
       {/* ─── OHLC Grid ─── */}
-      <div className="grid grid-cols-4 gap-2 mb-3 p-3 bg-white/[0.05] rounded-lg">
+      <div className="grid grid-cols-4 gap-1.5 md:gap-2 mb-2 md:mb-3 p-2.5 md:p-3 bg-white/[0.05] rounded-lg">
         <div className="text-center">
-          <span className="block text-text-muted text-xs mb-1">年初</span>
-          <span className="text-white font-medium">{data.open}</span>
+          <span className="block text-text-muted text-[10px] md:text-xs mb-0.5 md:mb-1">年初</span>
+          <span className="text-white font-medium text-sm">{data.open}</span>
         </div>
         <div className="text-center">
-          <span className="block text-text-muted text-xs mb-1">年末</span>
-          <span className="text-white font-medium" style={{
+          <span className="block text-text-muted text-[10px] md:text-xs mb-0.5 md:mb-1">年末</span>
+          <span className="text-white font-medium text-sm" style={{
             color: isUp ? '#22c55e' : '#ef4444'
           }}>{data.close}</span>
         </div>
         <div className="text-center">
-          <span className="block text-text-muted text-xs mb-1">年内高</span>
-          <span className="text-gold font-medium">{data.high}</span>
+          <span className="block text-text-muted text-[10px] md:text-xs mb-0.5 md:mb-1">年内高</span>
+          <span className="text-gold font-medium text-sm">{data.high}</span>
         </div>
         <div className="text-center">
-          <span className="block text-text-muted text-xs mb-1">年内低</span>
-          <span className="text-rose-400 font-medium">{data.low}</span>
+          <span className="block text-text-muted text-[10px] md:text-xs mb-0.5 md:mb-1">年内低</span>
+          <span className="text-rose-400 font-medium text-sm">{data.low}</span>
         </div>
       </div>
 
       {/* ─── Reason ─── */}
       {data.reason && (
-        <div className="text-sm text-text-secondary leading-relaxed mb-3 font-brush border-t border-gold/10 pt-2.5">
+        <div className="text-xs md:text-sm text-text-secondary leading-relaxed mb-2 md:mb-3 font-brush border-t border-gold/10 pt-2 md:pt-2.5">
           {data.reason}
         </div>
       )}
 
       {/* ─── 关键词星曜标签 ─── */}
-      <div className="mt-2 pt-2 border-t border-gold/20">
-        <div className="flex flex-wrap gap-1.5">
+      <div className="mt-1.5 md:mt-2 pt-1.5 md:pt-2 border-t border-gold/20">
+        <div className="flex flex-wrap gap-1 md:gap-1.5">
           {randomStars.map((star, i) => (
-            <span key={i} className="px-3 py-1.5 text-sm font-brush bg-star/20 border border-star/30 text-star-light rounded-lg">
+            <span key={i} className="px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm font-brush bg-star/20 border border-star/30 text-star-light rounded-lg">
               {star}
             </span>
           ))}
@@ -257,9 +258,9 @@ function PeakLabel(props: PeakLabelProps) {
 
 export function LifeKLine() {
   const { chart, birthInfo } = useChartStore()
-  const { provider, enableThinking, enableWebSearch } = useSettingsStore()
+  const { provider, enableThinking, enableWebSearch, getCost } = useSettingsStore()
   const { klineCache, setKlineCache, klineChatHistory, setKlineChatHistory } = useContentCacheStore()
-  const { requireAuth } = useAuthStore()
+  const { requireAuth, user } = useAuthStore()
 
   const [isGenerating, setIsGenerating] = useState(false)
   const [progress, setProgress] = useState('')
@@ -301,6 +302,14 @@ ${klineSummary}
   const generateKLines = useCallback(async () => {
     if (!chart || !birthInfo) return
 
+    // 积分检查
+    const cost = getCost('kline')
+    const points = user?.points ?? 0
+    if (points < cost) {
+      alert(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)
+      return
+    }
+
     setIsGenerating(true)
     setProgress('初始化...')
 
@@ -331,7 +340,7 @@ ${klineSummary}
           `* **${point.age}岁（${point.year}年 ${point.ganZhi}）**：${point.score}分 - ${point.reason || '暂无解读'}`
         ).join('\n')
 
-        await fetch('/api/user/history', {
+        await fetch(`${config.apiBaseUrl}/api/user/history`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -349,17 +358,15 @@ ${klineSummary}
       console.error('K 线生成失败:', error)
       setProgress('生成失败，请重试')
 
-      // 失败时使用算法兜底
       const lifetime = generateLifetimeKLines(chart, birthInfo.year)
       setKlineCache({ lifetime, isGenerating: false })
 
-      // 保存到服务器历史记录
       try {
         const klineContent = lifetime.map(point => 
           `* **${point.age}岁（${point.year}年 ${point.ganZhi}）**：${point.score}分 - ${point.reason || '暂无解读'}`
         ).join('\n')
 
-        await fetch('/api/user/history', {
+        await fetch(`${config.apiBaseUrl}/api/user/history`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
