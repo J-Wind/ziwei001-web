@@ -261,12 +261,13 @@ export function MatchAnalysis() {
   const [result, setResult] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   // LLM 配置（现在不需要apiKey，后端管理）
   const llmConfig: LLMConfig = useMemo(() => ({
     provider,
     enableThinking,
     enableWebSearch,
+    operation: 'ai_match',
   }), [provider, enableThinking, enableWebSearch])
 
   // 当有结果但没有对话历史时，初始化对话历史
@@ -306,7 +307,7 @@ ${context2}
 
   const handleAnalyze = useCallback(async () => {
     // 积分检查
-    const cost = getCost('match')
+    const cost = getCost('ai_match')
     const points = user?.points ?? 0
     if (points < cost) {
       setError(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)

@@ -249,6 +249,7 @@ export function YearlyFortune() {
     provider,
     enableThinking,
     enableWebSearch,
+    operation: 'ai_fortune',
   }), [provider, enableThinking, enableWebSearch])
 
   // 切换年份时加载缓存
@@ -308,7 +309,7 @@ ${yearlyContext}
     if (!chart || !birthInfo) return
 
     // 积分检查
-    const cost = getCost('fortune')
+    const cost = getCost('ai_fortune')
     const points = user?.points ?? 0
     if (points < cost) {
       setError(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)

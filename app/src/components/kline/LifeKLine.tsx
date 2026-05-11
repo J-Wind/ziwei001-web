@@ -272,6 +272,7 @@ export function LifeKLine() {
     provider,
     enableThinking,
     enableWebSearch,
+    operation: 'ai_kline',
   }), [provider, enableThinking, enableWebSearch])
 
   // 生成K线数据后，初始化对话历史
@@ -304,7 +305,7 @@ ${klineSummary}
     if (!chart || !birthInfo) return
 
     // 积分检查
-    const cost = getCost('kline')
+    const cost = getCost('ai_kline')
     const points = user?.points ?? 0
     if (points < cost) {
       alert(`当前积分不足（需要 ${cost} 积分，当前 ${points} 积分），请充值后再试`)
