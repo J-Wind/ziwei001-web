@@ -387,12 +387,19 @@ export function ShareCard() {
               </p>
             </div>
 
-            {/* 印章 + 年份 */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'clamp(8px, 2.5vw, 12px)', marginTop: 'clamp(6px, 1.8vh, 10px)' }}>
+            {/* 印章 + 年份 - 完美居中 */}
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: 'clamp(10px, 3vw, 14px)', 
+              marginTop: 'clamp(8px, 2vh, 12px)',
+              width: '100%'
+            }}>
               <div
                 style={{
-                  width: 'clamp(26px, 7vw, 34px)',
-                  height: 'clamp(26px, 7vw, 34px)',
+                  width: 'clamp(28px, 7.5vw, 36px)',
+                  height: 'clamp(28px, 7.5vw, 36px)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -400,13 +407,20 @@ export function ShareCard() {
                   border: '1px solid rgba(255, 180, 0, 0.4)',
                   background: 'rgba(255, 180, 0, 0.05)',
                   color: 'rgba(212, 175, 55, 0.7)',
-                  fontSize: 'clamp(10px, 3vw, 12px)',
+                  fontSize: 'clamp(11px, 3.2vw, 13px)',
                   fontFamily: FONT_SERIF,
+                  flexShrink: 0,
                 }}
               >
                 命
               </div>
-              <p style={{ color: 'rgba(252, 211, 77, 0.6)', fontSize: 'clamp(10px, 3vw, 12px)', letterSpacing: '0.1em', margin: 0 }}>
+              <p style={{ 
+                color: 'rgba(252, 211, 77, 0.6)', 
+                fontSize: 'clamp(10.5px, 3.2vw, 13px)', 
+                letterSpacing: '0.12em', 
+                margin: 0,
+                textAlign: 'center'
+              }}>
                 {ganZhi}年 · {gender}
               </p>
             </div>
