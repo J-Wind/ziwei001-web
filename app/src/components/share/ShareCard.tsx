@@ -315,6 +315,7 @@ export function ShareCard() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
             {/* 顶部星辰装饰线 */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: 'clamp(4px, 1.2vh, 8px)' }}>
@@ -348,9 +349,23 @@ export function ShareCard() {
                   fontFamily: FONT_BRUSH,
                   textAlign: 'center',
                   padding: '0 clamp(12px, 4vw, 20px)',
+                  width: '100%',
                 }}
               >
-                {'"' + displayQuote.split('\n').filter(s => s.trim()).join(' ') + '"'}
+                {(() => {
+                  const sentences = displayQuote.split('。').filter(s => s.trim())
+                  if (sentences.length === 0) return null
+                  const firstSentence = sentences[0]?.trim() || ''
+                  const restSentences = sentences.slice(1).filter(s => s.trim())
+                  return (
+                    <>
+                      <div>"{firstSentence}。</div>
+                      {restSentences.length > 0 && (
+                        <div style={{ marginTop: '0.3em' }}>{restSentences.join('。')}。"</div>
+                      )}
+                    </>
+                  )
+                })()}
               </div>
             </div>
 
