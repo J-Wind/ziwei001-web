@@ -497,7 +497,7 @@ export function ShareCard() {
       </Button>
 
       <p className="text-center text-text-muted text-xs">
-        长按保存图片，分享到小红书 📕
+        点击保存图片，可分享挚友✨
       </p>
     </div>
   )
