@@ -350,7 +350,7 @@ export function ShareCard() {
                   padding: '0 clamp(12px, 4vw, 20px)',
                 }}
               >
-                "{displayQuote.replace(/\n/g, ' ')}"
+                {'"' + displayQuote.split('\n').filter(s => s.trim()).join(' ') + '"'}
               </div>
             </div>
 
