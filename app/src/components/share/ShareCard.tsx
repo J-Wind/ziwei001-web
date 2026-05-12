@@ -342,19 +342,15 @@ export function ShareCard() {
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0, margin: 'clamp(4px, 1vh, 8px) 0' }}>
               <div
                 style={{
-                  fontSize: 'clamp(12px, 3.8vw, 15px)',
-                  lineHeight: '1.8',
+                  fontSize: 'clamp(13px, 4vw, 16px)',
+                  lineHeight: '2',
                   color: '#FFFBEB',
                   fontFamily: FONT_BRUSH,
                   textAlign: 'center',
-                  padding: '0 clamp(10px, 3.5vw, 18px)',
+                  padding: '0 clamp(12px, 4vw, 20px)',
                 }}
               >
-                {displayQuote.split('。').filter(s => s.trim()).map((sentence, idx) => (
-                  <div key={idx} style={{ marginBottom: idx < displayQuote.split('。').filter(s => s.trim()).length - 1 ? '0.5em' : '0' }}>
-                    "{sentence.trim()}。"
-                  </div>
-                ))}
+                "{displayQuote.replace(/\n/g, ' ')}"
               </div>
             </div>
 
