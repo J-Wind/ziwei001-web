@@ -324,9 +324,40 @@ ${yearlyContext}
       // 获取流年运限数据（添加错误处理防止 iztro 内部报错）
       let horoscope
       try {
-        horoscope = chart.horoscope(new Date(`${year}-6-15`))
+        // 使用 Date 构造函数直接创建日期对象，避免字符串解析问题
+        const targetDate = new Date(year, 5, 15) // 月份从 0 开始，5 表示 6 月
+        
+        console.log(`[YearlyFortune] 计算流年数据，年份: ${year}, 日期: ${targetDate.toISOString()}`)
+        
+        horoscope = chart.horoscope(targetDate)
+        
+        // 检查 horoscope 对象是否有效
+        if (!horoscope) {
+          throw new Error('horoscope 返回 null')
+        }
+        
+        // 检查 yearly 和 decadal 数据是否存在
+        if (!horoscope.yearly || !horoscope.decadal) {
+          console.warn(`[YearlyFortune] 流年数据不完整，yearly: ${!!horoscope.yearly}, decadal: ${!!horoscope.decadal}`)
+        }
+        
+        console.log(`[YearlyFortune] 流年数据计算成功`, {
+          yearly: horoscope.yearly ? {
+            heavenlyStem: horoscope.yearly.heavenlyStem,
+            earthlyBranch: horoscope.yearly.earthlyBranch,
+          } : null,
+          decadal: horoscope.decadal ? {
+            heavenlyStem: horoscope.decadal.heavenlyStem,
+            earthlyBranch: horoscope.decadal.earthlyBranch,
+          } : null,
+        })
       } catch (horoscopeErr) {
-        console.error('计算流年数据失败:', horoscopeErr)
+        console.error('[YearlyFortune] 计算流年数据失败:', horoscopeErr)
+        console.error('[YearlyFortune] 错误详情:', {
+          year,
+          errorMessage: horoscopeErr instanceof Error ? horoscopeErr.message : String(horoscopeErr),
+          errorStack: horoscopeErr instanceof Error ? horoscopeErr.stack : undefined,
+        })
         throw new Error(`流年数据计算失败（${year}年），可能是该年份超出支持范围，请尝试其他年份`)
       }
 
