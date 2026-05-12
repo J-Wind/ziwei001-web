@@ -77,16 +77,19 @@ export const FORTUNE_SYSTEM_PROMPT = `# Role
 
 const MarkdownComponents = {
   h1: ({ children }: { children?: React.ReactNode }) => (
-    <h1 className="text-2xl font-bold text-gold mt-6 mb-3 first:mt-0">{children}</h1>
+    <h1 className="text-xl sm:text-2xl font-bold text-gold mt-5 mb-3 first:mt-0">{children}</h1>
   ),
   h2: ({ children }: { children?: React.ReactNode }) => (
-    <h2 className="text-xl font-semibold text-gold/90 mt-5 mb-2">{children}</h2>
+    <h2 className="text-lg sm:text-xl font-semibold text-gold/90 mt-4 mb-2">{children}</h2>
   ),
   h3: ({ children }: { children?: React.ReactNode }) => (
-    <h3 className="text-lg font-medium text-star-light mt-4 mb-2">{children}</h3>
+    <h3 className="text-base sm:text-lg font-medium text-star-light mt-3 mb-2">{children}</h3>
+  ),
+  h4: ({ children }: { children?: React.ReactNode }) => (
+    <h4 className="text-sm sm:text-base font-medium text-star-light/80 mt-3 mb-1.5">{children}</h4>
   ),
   p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="mb-3 leading-relaxed">{children}</p>
+    <p className="mb-2.5 sm:mb-3 leading-relaxed sm:leading-loose text-sm sm:text-base">{children}</p>
   ),
   strong: ({ children }: { children?: React.ReactNode }) => (
     <strong className="text-gold font-semibold">{children}</strong>
@@ -95,31 +98,31 @@ const MarkdownComponents = {
     <em className="text-star-light not-italic font-medium">{children}</em>
   ),
   ul: ({ children }: { children?: React.ReactNode }) => (
-    <ul className="list-none space-y-1.5 mb-3 pl-4">{children}</ul>
+    <ul className="list-none space-y-1 sm:space-y-1.5 mb-2.5 sm:mb-3 pl-3 sm:pl-4">{children}</ul>
   ),
   ol: ({ children }: { children?: React.ReactNode }) => (
-    <ol className="list-decimal list-inside space-y-1.5 mb-3 pl-2">{children}</ol>
+    <ol className="list-decimal list-inside space-y-1 sm:space-y-1.5 mb-2.5 sm:mb-3 pl-1 sm:pl-2 text-sm sm:text-base">{children}</ol>
   ),
   li: ({ children }: { children?: React.ReactNode }) => (
-    <li className="relative pl-4 before:content-['◆'] before:absolute before:left-0 before:text-star/60 before:text-xs">
+    <li className="relative pl-3.5 sm:pl-4 before:content-['◆'] before:absolute before:left-0 before:text-star/60 before:text-xs leading-relaxed text-sm sm:text-base">
       {children}
     </li>
   ),
   blockquote: ({ children }: { children?: React.ReactNode }) => (
-    <blockquote className="border-l-2 border-gold/40 pl-4 my-3 italic text-text-secondary bg-gold/5 rounded-r-lg">
+    <blockquote className="border-l-2 border-gold/40 pl-3 sm:pl-4 my-2.5 sm:my-3 italic text-text-secondary bg-gold/5 rounded-r-lg text-sm sm:text-base">
       {children}
     </blockquote>
   ),
   hr: () => (
-    <hr className="my-6 border-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+    <hr className="my-4 sm:my-6 border-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
   ),
   code: ({ children, className }: { children?: React.ReactNode; className?: string }) => (
     className ? (
-      <code className={`${className} px-2 py-0.5 rounded bg-white/10 text-star-light text-sm`}>
+      <code className={`${className} px-1.5 sm:px-2 py-0.5 rounded bg-white/10 text-star-light text-xs sm:text-sm`}>
         {children}
       </code>
     ) : (
-      <code className="px-1.5 py-0.5 rounded bg-gold/10 text-gold text-sm">{children}</code>
+      <code className="px-1 sm:px-1.5 py-0.5 rounded bg-gold/10 text-gold text-xs sm:text-sm">{children}</code>
     )
   ),
   a: ({ children, href }: { children?: React.ReactNode; href?: string }) => (
@@ -131,6 +134,38 @@ const MarkdownComponents = {
     >
       {children}
     </a>
+  ),
+  table: ({ children }: { children?: React.ReactNode }) => (
+    <div className="overflow-x-auto -mx-2 sm:mx-0 my-3 sm:my-4">
+      <table className="w-full min-w-[280px] border-collapse text-sm">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }: { children?: React.ReactNode }) => (
+    <thead className="border-b border-gold/20">
+      {children}
+    </thead>
+  ),
+  tbody: ({ children }: { children?: React.ReactNode }) => (
+    <tbody>
+      {children}
+    </tbody>
+  ),
+  tr: ({ children }: { children?: React.ReactNode }) => (
+    <tr className="border-b border-white/5 last:border-0">
+      {children}
+    </tr>
+  ),
+  th: ({ children }: { children?: React.ReactNode }) => (
+    <th className="text-left py-2 px-2 sm:px-3 text-gold/80 font-semibold text-xs sm:text-sm whitespace-nowrap">
+      {children}
+    </th>
+  ),
+  td: ({ children }: { children?: React.ReactNode }) => (
+    <td className="py-2 px-2 sm:px-3 text-text-secondary text-xs sm:text-sm leading-relaxed">
+      {children}
+    </td>
   ),
 }
 
