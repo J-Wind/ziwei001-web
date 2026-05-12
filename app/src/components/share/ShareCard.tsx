@@ -208,14 +208,23 @@ export function ShareCard() {
 
       const card = cardRef.current
       
-      // 强制设置卡片尺寸为固定值，确保 html2canvas 正确捕获
+      // 保存原始样式
       const originalStyle = {
         width: card.style.width,
         height: card.style.height,
+        position: card.style.position,
+        left: card.style.left,
+        top: card.style.top,
+        transform: card.style.transform,
       }
       
+      // 临时将卡片定位到左上角，避免 html2canvas 捕获到灰色边距
       card.style.width = '360px'
       card.style.height = '480px'
+      card.style.position = 'fixed'
+      card.style.left = '0'
+      card.style.top = '0'
+      card.style.transform = 'none'
 
       const canvas = await html2canvas(card, {
         backgroundColor: '#0c0c18',
@@ -227,11 +236,17 @@ export function ShareCard() {
         height: 480,
         scrollX: 0,
         scrollY: 0,
+        x: 0,
+        y: 0,
       })
 
       // 恢复原始样式
       card.style.width = originalStyle.width
       card.style.height = originalStyle.height
+      card.style.position = originalStyle.position
+      card.style.left = originalStyle.left
+      card.style.top = originalStyle.top
+      card.style.transform = originalStyle.transform
 
       const dataUrl = canvas.toDataURL('image/png', 1.0)
 
