@@ -207,7 +207,15 @@ export function ShareCard() {
       await document.fonts.ready
 
       const card = cardRef.current
-      const rect = card.getBoundingClientRect()
+      
+      // 强制设置卡片尺寸为固定值，确保 html2canvas 正确捕获
+      const originalStyle = {
+        width: card.style.width,
+        height: card.style.height,
+      }
+      
+      card.style.width = '360px'
+      card.style.height = '480px'
 
       const canvas = await html2canvas(card, {
         backgroundColor: '#0c0c18',
@@ -215,15 +223,15 @@ export function ShareCard() {
         useCORS: true,
         logging: false,
         allowTaint: true,
-        width: card.scrollWidth,
-        height: card.scrollHeight,
+        width: 360,
+        height: 480,
         scrollX: 0,
         scrollY: 0,
-        windowWidth: card.scrollWidth,
-        windowHeight: card.scrollHeight,
-        x: 0,
-        y: 0,
       })
+
+      // 恢复原始样式
+      card.style.width = originalStyle.width
+      card.style.height = originalStyle.height
 
       const dataUrl = canvas.toDataURL('image/png', 1.0)
 
@@ -406,7 +414,8 @@ export function ShareCard() {
               justifyContent: 'center',
               gap: '12px',
               marginTop: '8px',
-              width: '100%'
+              width: '100%',
+              textAlign: 'center',
             }}>
               <div
                 style={{
@@ -424,19 +433,23 @@ export function ShareCard() {
                   flexShrink: 0,
                   lineHeight: 1,
                   padding: 0,
+                  boxSizing: 'border-box',
                 }}
               >
                 命
               </div>
-              <p style={{
+              <span style={{
                 color: 'rgba(252, 211, 77, 0.6)',
                 fontSize: '11px',
                 letterSpacing: '0.12em',
                 margin: 0,
-                textAlign: 'center'
+                textAlign: 'center',
+                whiteSpace: 'nowrap',
+                display: 'inline-block',
+                verticalAlign: 'middle',
               }}>
                 {ganZhi}年 · {gender}
-              </p>
+              </span>
             </div>
 
             {/* 底部水印 */}
