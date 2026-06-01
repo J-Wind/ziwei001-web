@@ -370,13 +370,13 @@ export default function App() {
         "
       >
         <div className="flex items-center justify-center gap-1.5 xs:gap-2">
-          <span className="text-purple-400/60 text-base xs:text-lg">☯</span>
+          <span className="text-text-muted/50 text-base xs:text-lg">☯</span>
           <p className="flex items-center gap-1.5 xs:gap-2 text-text-muted text-xs xs:text-sm" style={{ fontFamily: 'var(--font-brush)' }}>
             <span className="text-gold/60 text-xs xs:text-sm">☆</span>
             观星知势 · 谋定而行
-            <span className="text-purple-400/60 text-xs xs:text-sm">☆</span>
+            <span className="text-text-muted/50 text-xs xs:text-sm">☆</span>
           </p>
-          <span className="text-gold/60 text-base xs:text-lg">☯</span>
+          <span className="text-text-muted/50 text-base xs:text-lg">☯</span>
         </div>
       </footer>
       </div>
@@ -397,7 +397,7 @@ function LoadingPlaceholder() {
         max-w-md mx-auto
         shadow-[0_8px_32px_rgba(0,0,0,0.3)]
       ">
-        <span className="text-6xl mb-4 animate-pulse-soft opacity-50 block">☯</span>
+        <span className="text-6xl mb-4 animate-pulse-soft opacity-30 block text-text-muted">☯</span>
         <p className="text-text-muted" style={{ fontFamily: 'var(--font-brush)' }}>加载中...</p>
       </div>
     </div>
@@ -420,7 +420,7 @@ function EmptyState({ message, action, actionLabel }: EmptyStateProps) {
         shadow-[0_8px_32px_rgba(0,0,0,0.3)]
       "
     >
-      <div className="text-6xl mb-6 opacity-50 animate-pulse-soft">☯</div>
+      <div className="text-6xl mb-6 opacity-30 animate-pulse-soft text-text-muted">☯</div>
       <p className="text-text-muted mb-6 text-base" style={{ fontFamily: 'var(--font-brush)' }}>{message}</p>
       <button
         onClick={action}

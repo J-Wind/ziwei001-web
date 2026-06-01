@@ -183,7 +183,7 @@ export function BirthForm() {
                 />
                 <span
                   className={`
-                    text-base xs:text-lg transition-transform duration-200
+                    text-sm xs:text-base sm:text-lg transition-transform duration-200
                     ${gender === opt.value ? 'scale-110' : 'opacity-60 group-hover:opacity-80'}
                   `}
                 >
