@@ -191,7 +191,7 @@ export function BirthForm() {
                 </span>
                 <span className="font-medium text-[10px] xs:text-xs sm:text-sm">{opt.label}</span>
                 {gender === opt.value && (
-                  <span className="absolute top-[2px] right-1 w-2 xs:w-2.5 h-2 xs:h-2.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,175,55,0.6)]" />
+                  <span className="absolute top-2 right-2 w-2 xs:w-2.5 h-2 xs:h-2.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,175,55,0.6)]" />
                 )}
               </label>
             ))}
