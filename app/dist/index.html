@@ -19,26 +19,45 @@
     <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
     <link rel="dns-prefetch" href="https://ziweiapi.zeabur.app">
 
+    <!-- 关键字体预加载（高优先级） -->
+    <link rel="preload" as="style" href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap">
+
     <!-- 国内字体镜像: 精简字重版本（减少8-12个Unicode分片请求） -->
     <!-- Noto Sans SC: 5个字重 → 3个字重 (400,500,600) -->
     <!-- Noto Serif SC: 4个字重 → 2个字重 (500,600) -->
     <!-- Ma Shan Zheng: 保持不变（书法字体通常只有1个字重） -->
-    <link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet"></noscript>
 
     <!-- 内联关键CSS：避免FOIT（不可见文本闪烁），提升首屏渲染速度 -->
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
         background-color: #111028;
+        background-image: url('/bg-ziwei-mobile.webp');
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+      }
+      @media (min-width: 768px) {
+        body {
+          background-image: url('/bg-ziwei.webp');
+        }
       }
       #root { min-height: 100vh; }
+      
+      /* 字体加载期间使用系统字体，避免布局偏移 */
+      .font-brush, [style*="font-brush"] {
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
     </style>
-    <script type="module" crossorigin src="/assets/index-D355FiZf.js"></script>
+    <script type="module" crossorigin src="/assets/index-InWF3XAy.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/echarts-Bxz-31iD.js">
     <link rel="modulepreload" crossorigin href="/assets/ui-DLbki8NR.js">
     <link rel="modulepreload" crossorigin href="/assets/charts-Dxni0A0R.js">
     <link rel="modulepreload" crossorigin href="/assets/utils-CyS9ObzW.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-CIaYbwQp.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-7Aey_Si3.css">
   </head>
   <body>
     <div id="root"></div>

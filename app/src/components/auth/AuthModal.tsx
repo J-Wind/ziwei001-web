@@ -145,7 +145,7 @@ export function AuthModal() {
 
               <button
                 onClick={() => { setAuthModalTab('login'); setError('') }}
-                className={`relative flex-1 py-3 text-center text-sm font-bold transition-all duration-500 ease-out overflow-hidden group ${
+                className={`relative flex-1 py-3 text-center text-sm font-bold overflow-hidden group ${
                   isLogin
                     ? 'text-night rounded-full'
                     : 'text-text-muted hover:text-text-secondary'
@@ -170,14 +170,14 @@ export function AuthModal() {
                   </>
                 )}
 
-                <span className="relative z-10">
+                <span className="relative z-10 inline-block w-full">
                   登录
                 </span>
               </button>
 
               <button
                 onClick={() => { setAuthModalTab('register'); setError('') }}
-                className={`relative flex-1 py-3 text-center text-sm font-bold transition-all duration-500 ease-out overflow-hidden group ${
+                className={`relative flex-1 py-3 text-center text-sm font-bold overflow-hidden group ${
                   !isLogin
                     ? 'text-white rounded-full'
                     : 'text-text-muted hover:text-text-secondary'
@@ -203,7 +203,7 @@ export function AuthModal() {
                   </>
                 )}
 
-                <span className="relative z-10">
+                <span className="relative z-10 inline-block w-full">
                   注册
                 </span>
               </button>
