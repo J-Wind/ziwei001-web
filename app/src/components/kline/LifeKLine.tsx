@@ -458,9 +458,17 @@ ${klineSummary}
           <button
             onClick={() => requireAuth(generateKLines)}
             disabled={isGenerating}
-            className="px-8 py-3 rounded-xl bg-gradient-to-r from-star to-gold text-night font-medium hover:shadow-[0_0_30px_rgba(124,58,237,0.4)] transition-all duration-300 disabled:opacity-50"
+            className={`
+              relative px-8 py-3 rounded-xl font-medium text-gold border border-gold/25
+              transition-all duration-300
+              ${isGenerating
+                ? 'bg-night/60 backdrop-blur-md animate-pulse-soft cursor-wait'
+                : 'bg-night/40 backdrop-blur-sm hover:bg-night/60 hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:border-gold/40 active:scale-[0.98]'
+              }
+              disabled:opacity-70
+            `}
           >
-            {isGenerating ? (progress || '生成中...') : '✨ 解读运势'}
+            {isGenerating ? (progress || '正在推演运势走向...') : '解读运势'}
           </button>
         </div>
       ) : (

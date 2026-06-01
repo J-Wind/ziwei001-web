@@ -50,7 +50,7 @@ export function MathCaptcha({ onValidate, onValueChange }: MathCaptchaProps) {
   return (
     <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
       {/* 验证码显示区域 */}
-      <div className="relative flex-shrink-0 w-[80px] xs:w-[100px] sm:w-[120px] h-[40px] xs:h-[44px] rounded-lg overflow-hidden bg-gradient-to-br from-purple-900/40 to-indigo-900/40 border border-purple-500/30 backdrop-blur-sm">
+      <div className="relative flex-shrink-0 w-[80px] xs:w-[100px] sm:w-[120px] h-[40px] xs:h-[44px] rounded-lg bg-gradient-to-br from-purple-900/40 to-indigo-900/40 border border-purple-500/30 backdrop-blur-sm">
         {/* 干扰线 */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
           <line x1="0" y1="10" x2="100%" y2="30" stroke="rgba(167,139,250,0.15)" strokeWidth="1" />
@@ -77,11 +77,11 @@ export function MathCaptcha({ onValidate, onValueChange }: MathCaptchaProps) {
         <button
           type="button"
           onClick={generateCaptcha}
-          className="absolute top-0.5 right-0.5 p-1 rounded-md hover:bg-white/10 transition-colors group"
+          className="absolute -top-1 -right-1 p-1.5 rounded-full bg-night/80 border border-white/10 hover:bg-night hover:border-white/20 transition-all shadow-md group z-20"
           title="刷新验证码"
         >
           <svg
-            className="w-3.5 h-3.5 text-purple-400/60 group-hover:text-purple-300 transition-colors"
+            className="w-3.5 h-3.5 text-purple-400/70 group-hover:text-gold transition-colors duration-200 group-hover:rotate-180 transform duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

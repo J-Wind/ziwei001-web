@@ -9,7 +9,6 @@ import remarkGfm from 'remark-gfm'
 import { useChartStore, useSettingsStore, useContentCacheStore, useAuthStore } from '@/stores'
 import { extractKnowledge, buildPromptContext } from '@/knowledge'
 import { streamChat, type ChatMessage, type LLMConfig } from '@/lib/llm'
-import { Button } from '@/components/ui'
 import { FollowUpQuestion } from '@/components/FollowUpQuestion'
 
 /* ------------------------------------------------------------
@@ -417,19 +416,26 @@ ${contextStr}
         >
           命盘解读
         </h2>
-        <Button
+        <button
           onClick={() => requireAuth(handleInterpret)}
           disabled={loading}
-          size="sm"
-          variant="gold"
+          className={`
+            relative px-6 py-2.5 rounded-xl font-medium text-gold border border-gold/25
+            transition-all duration-300
+            ${loading
+              ? 'bg-night/60 backdrop-blur-md animate-pulse-soft cursor-wait'
+              : 'bg-night/40 backdrop-blur-sm hover:bg-night/60 hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:border-gold/40 active:scale-[0.98]'
+            }
+            disabled:opacity-70
+          `}
         >
           {loading ? (
             <span className="flex items-center gap-2">
-              <span className="w-3 h-3 border-2 border-night border-t-transparent rounded-full animate-spin" />
-              解读中
+              <span className="w-3 h-3 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+              正在解读命盘...
             </span>
           ) : chartInterpretation ? '重新解读' : '开始解读'}
-        </Button>
+        </button>
       </div>
 
       {/* 错误提示 */}

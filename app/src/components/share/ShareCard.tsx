@@ -437,9 +437,10 @@ export function ShareCard() {
                   fontSize: '13px',
                   fontFamily: FONT_SERIF,
                   flexShrink: 0,
-                  lineHeight: 1,
+                  lineHeight: '28px',
                   padding: 0,
                   boxSizing: 'border-box',
+                  textAlign: 'center',
                 }}
               >
                 命
@@ -449,6 +450,9 @@ export function ShareCard() {
                 fontSize: '13px',
                 letterSpacing: '0.12em',
                 lineHeight: '28px',
+                height: '28px',
+                display: 'flex',
+                alignItems: 'center',
                 margin: 0,
                 whiteSpace: 'nowrap',
                 fontFamily: FONT_SERIF,
@@ -460,7 +464,7 @@ export function ShareCard() {
             {/* 底部水印 */}
             <div style={{ marginTop: '6px', paddingTop: '5px', borderTop: '1px solid rgba(212, 175, 55, 0.1)', textAlign: 'center' }}>
               <p style={{ color: 'rgba(212, 175, 55, 0.3)', fontSize: '9px', letterSpacing: '0.2em', margin: 0 }}>
-                ─── 紫微卜运 ───
+                ——— 紫微卜运 ———
               </p>
             </div>
           </div>

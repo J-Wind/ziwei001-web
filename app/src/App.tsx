@@ -197,13 +197,14 @@ export default function App() {
             <button
               onClick={() => setShowAuthModal(true)}
               className="
-                group relative px-3 xs:px-4 sm:px-5 py-1.5 xs:py-2 sm:py-2.5 rounded-lg xs:rounded-xl
+                px-5 xs:px-6 sm:px-7 py-2 xs:py-2.5 sm:py-3
                 bg-gradient-to-r from-gold to-gold-dark
-                text-night font-semibold text-sm xs:text-base
-                shadow-[0_2px_12px_rgba(212,175,55,0.25)]
-                hover:shadow-[0_4px_20px_rgba(212,175,55,0.35)]
-                transition-all duration-300
-                ink-ripple-click
+                text-night font-bold text-sm xs:text-base sm:text-lg
+                rounded-full
+                shadow-[0_2px_12px_rgba(212,175,55,0.3)]
+                hover:shadow-[0_4px_20px_rgba(212,175,55,0.45)]
+                hover:scale-[1.02] active:scale-[0.98]
+                transition-all duration-200
               "
               style={{ fontFamily: 'var(--font-brush)' }}
             >

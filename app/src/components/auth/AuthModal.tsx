@@ -136,18 +136,18 @@ export function AuthModal() {
 
           {/* Tab 切换 - 精致纹理版 */}
           <div className="px-4 xs:px-5 sm:px-8 mb-4 xs:mb-6">
-            <div className="relative flex gap-3 p-[3px] rounded-2xl bg-gradient-to-r from-white/[0.08] via-white/[0.04] to-white/[0.08] border border-white/[0.1] shadow-[inset_0_1px_3px_rgba(255,255,255,0.05),0_4px_20px_rgba(0,0,0,0.3)]">
-              
+            <div className="relative flex gap-0 rounded-full bg-gradient-to-r from-white/[0.08] via-white/[0.04] to-white/[0.08] border border-white/[0.1] shadow-[inset_0_1px_3px_rgba(255,255,255,0.05),0_4px_20px_rgba(0,0,0,0.3)] overflow-hidden">
+
               {/* 背景纹理装饰 */}
-              <div className="absolute inset-0 rounded-2xl opacity-30 pointer-events-none" style={{
+              <div className="absolute inset-0 rounded-full opacity-30 pointer-events-none" style={{
                 backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255,224,102,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(168,85,247,0.1) 0%, transparent 50%)`
               }} />
 
               <button
                 onClick={() => { setAuthModalTab('login'); setError('') }}
-                className={`relative flex-1 py-3 text-center text-sm font-bold rounded-xl transition-all duration-500 ease-out overflow-hidden group ${
+                className={`relative flex-1 py-3 text-center text-sm font-bold transition-all duration-500 ease-out overflow-hidden group ${
                   isLogin
-                    ? 'text-night scale-[1.03]'
+                    ? 'text-night rounded-full'
                     : 'text-text-muted hover:text-text-secondary'
                 }`}
                 style={{ fontFamily: 'var(--font-serif)' }}
@@ -155,40 +155,31 @@ export function AuthModal() {
                 {isLogin && (
                   <>
                     {/* 多层渐变背景 */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold-light via-gold to-gold-dark" />
-                    
+                    <div className="absolute inset-0 bg-gradient-to-br from-gold-light via-gold to-gold-dark rounded-full" />
+
                     {/* 纹理叠加层 */}
                     <div className="absolute inset-0 opacity-20" style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
                     }} />
-                    
+
                     {/* 顶部高光 */}
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 to-gold-light" />
-                    
+
                     {/* 底部阴影 */}
                     <div className="absolute bottom-0 left-2 right-2 h-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent blur-sm" />
-                    
-                    {/* 左侧光晕 */}
-                    <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-gradient-to-r from-gold-light/60 to-transparent rounded-full blur-sm" />
-                    
-                    {/* 右侧光晕 */}
-                    <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-gradient-to-l from-gold-dark/60 to-transparent rounded-full blur-sm" />
-                    
-                    {/* 动态光效 */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:animate-shine skew-x-12" />
                   </>
                 )}
-                
-                <span className={`relative z-10 ${isLogin ? 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]' : ''}`}>
+
+                <span className="relative z-10">
                   登录
                 </span>
               </button>
 
               <button
                 onClick={() => { setAuthModalTab('register'); setError('') }}
-                className={`relative flex-1 py-3 text-center text-sm font-bold rounded-xl transition-all duration-500 ease-out overflow-hidden group ${
+                className={`relative flex-1 py-3 text-center text-sm font-bold transition-all duration-500 ease-out overflow-hidden group ${
                   !isLogin
-                    ? 'text-white scale-[1.03]'
+                    ? 'text-white rounded-full'
                     : 'text-text-muted hover:text-text-secondary'
                 }`}
                 style={{ fontFamily: 'var(--font-serif)' }}
@@ -196,32 +187,23 @@ export function AuthModal() {
                 {!isLogin && (
                   <>
                     {/* 紫色多层渐变 */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600" />
-                    
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-full" />
+
                     {/* 纹理叠加 */}
                     <div className="absolute inset-0 opacity-15" style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M0 0h20v20H0V0zm20 20h20v20H20V20z'/%3E%3C/g%3E%3C/svg%3E")`,
                       backgroundSize: '10px 10px'
                     }} />
-                    
+
                     {/* 顶部高光 */}
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/70 to-purple-300" />
-                    
+
                     {/* 底部发光 */}
                     <div className="absolute bottom-0 left-2 right-2 h-1 bg-gradient-to-r from-transparent via-purple-400/50 to-transparent blur-sm" />
-                    
-                    {/* 左侧光晕 */}
-                    <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-gradient-to-r from-purple-400/60 to-transparent rounded-full blur-sm" />
-                    
-                    {/* 右侧光晕 */}
-                    <div className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-8 bg-gradient-to-l from-purple-600/60 to-transparent rounded-full blur-sm" />
-                    
-                    {/* 动态光效 */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent translate-x-[-100%] group-hover:animate-shine skew-x-12" />
                   </>
                 )}
-                
-                <span className={`relative z-10 ${!isLogin ? 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]' : ''}`}>
+
+                <span className="relative z-10">
                   注册
                 </span>
               </button>

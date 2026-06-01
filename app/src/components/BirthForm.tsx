@@ -164,7 +164,7 @@ export function BirthForm() {
               <label
                 key={opt.value}
                 className={`
-                  group relative flex-1 py-1.5 xs:py-2 sm:py-3 px-2.5 xs:px-3 sm:px-4 rounded-xl overflow-hidden
+                  group relative flex-1 py-1.5 xs:py-2 sm:py-3 px-2.5 xs:px-3 sm:px-4 rounded-xl
                   flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2
                   cursor-pointer transition-all duration-200
                   ${gender === opt.value
@@ -191,7 +191,7 @@ export function BirthForm() {
                 </span>
                 <span className="font-medium text-[10px] xs:text-xs sm:text-sm">{opt.label}</span>
                 {gender === opt.value && (
-                  <span className="absolute top-1 right-1 w-2 xs:w-2.5 h-2 xs:h-2.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,175,55,0.6)]" />
+                  <span className="absolute top-[2px] right-1 w-2 xs:w-2.5 h-2 xs:h-2.5 rounded-full bg-gold shadow-[0_0_8px_rgba(212,175,55,0.6)]" />
                 )}
               </label>
             ))}
