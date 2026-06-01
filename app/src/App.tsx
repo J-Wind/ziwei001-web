@@ -420,7 +420,7 @@ function EmptyState({ message, action, actionLabel }: EmptyStateProps) {
         shadow-[0_8px_32px_rgba(0,0,0,0.3)]
       "
     >
-      <div className="text-6xl mb-6 opacity-30 animate-pulse-soft text-text-muted">☯</div>
+      <div className="text-6xl mb-6 opacity-30 text-text-muted">☯</div>
       <p className="text-text-muted mb-6 text-base" style={{ fontFamily: 'var(--font-brush)' }}>{message}</p>
       <button
         onClick={action}
