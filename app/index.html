@@ -2,10 +2,12 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <!-- 强制防缓存：针对 iOS 微信顽固缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <link rel="icon" type="image/png" href="/favicon.png?v=20260601" />
+    <meta name="apple-mobile-web-app-capable" content="no" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=20260601b" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0f" />
@@ -55,6 +57,67 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+
+    <!--
+      ============================================
+      iOS 微信缓存强制清除脚本
+      解决 iPhone 设备显示旧版本问题
+      ============================================
+    -->
+    <script>
+      (function() {
+        // 当前部署版本号（每次更新代码时修改此值）
+        var CURRENT_VERSION = '20260601-2'
+
+        // 从 localStorage 获取上次访问的版本
+        var lastVersion = localStorage.getItem('app_version') || ''
+
+        // 如果版本不匹配，强制清除所有缓存并刷新
+        if (lastVersion !== CURRENT_VERSION) {
+          console.log('[Cache] 版本更新: ' + lastVersion + ' -> ' + CURRENT_VERSION + ', 正在清除缓存...')
+
+          // 清除 localStorage 中的缓存数据（保留用户登录态）
+          var keysToKeep = ['token', 'user_info', 'auth_token']
+          var allKeys = []
+          try {
+            for (var i = 0; i < localStorage.length; i++) {
+              allKeys.push(localStorage.key(i))
+            }
+          } catch(e) {}
+
+          allKeys.forEach(function(key) {
+            if (keysToKeep.indexOf(key) === -1) {
+              try { localStorage.removeItem(key) } catch(e) {}
+            }
+          })
+
+          // 清除 sessionStorage
+          try { sessionStorage.clear() } catch(e) {}
+
+          // 尝试清除 Cache Storage (Service Worker 缓存)
+          if ('caches' in window) {
+            caches.keys().then(function(names) {
+              names.forEach(function(name) {
+                caches.delete(name)
+              })
+            }).catch(function(){})
+          }
+
+          // 保存新版本号
+          try { localStorage.setItem('app_version', CURRENT_VERSION) } catch(e) {}
+
+          // 强制重新加载页面（带时间戳参数破坏缓存）
+          var ts = Date.now()
+          var newUrl = window.location.pathname + '?_v=' + CURRENT_VERSION + '&_t=' + ts +
+            (window.location.hash ? window.location.hash : '')
+
+          // 使用 replace 避免浏览器历史记录堆积
+          window.location.replace(newUrl)
+        }
+      })()
+    </script>
+
+    <!-- 入口文件：添加版本号参数破坏缓存 -->
+    <script type="module" src="/src/main.tsx?v=20260601-2"></script>
   </body>
 </html>
