@@ -1,4 +1,4 @@
-import{j as t,M as U,r as q}from"./ui-DLbki8NR.js";import{a as u}from"./echarts-Bxz-31iD.js";import{u as L,a as G,b as J,c as K,d as Q,e as P,f as B,s as W,g as V,S as X,B as Z,F as ee}from"./index-InWF3XAy.js";import"./charts-Dxni0A0R.js";import"./utils-CyS9ObzW.js";const v=new Date().getFullYear(),te=Array.from({length:10},(e,a)=>({value:v-5+a,label:`${v-5+a}年`})),O=`# Role
+import{j as t,M as U,r as q}from"./ui-DLbki8NR.js";import{a as u}from"./echarts-Bxz-31iD.js";import{u as L,a as G,b as J,c as K,d as Q,e as P,f as B,s as W,g as V,S as X,B as Z,F as ee}from"./index-PbROZBHq.js";import"./charts-Dxni0A0R.js";import"./utils-CyS9ObzW.js";const v=new Date().getFullYear(),te=Array.from({length:10},(e,a)=>({value:v-5+a,label:`${v-5+a}年`})),O=`# Role
 你是一位精通流年推算的紫微斗数专家。根据提供的命盘信息进行解读。在分析流年时，你严格遵循"本命为体，大限为用，流年为应"的原则，运用"限流叠宫"和"流年四化"技法，精准捕捉该年份的吉凶趋势。
 
 # Analysis Logic

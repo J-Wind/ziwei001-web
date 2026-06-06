@@ -154,9 +154,9 @@ function CustomTooltip({ active, payload }: TooltipProps) {
 
       {/* ─── 关键词星曜标签 ─── */}
       <div className="mt-1.5 md:mt-2 pt-1.5 md:pt-2 border-t border-gold/20">
-        <div className="flex flex-wrap gap-1 md:gap-1.5">
+        <div className="flex flex-wrap md:flex-nowrap gap-1 md:gap-1.5 overflow-x-auto">
           {randomStars.map((star, i) => (
-            <span key={i} className="px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm font-brush bg-star/20 border border-star/30 text-star-light rounded-lg">
+            <span key={i} className="px-2 md:px-2.5 py-1 md:py-1 text-xs md:text-xs font-brush bg-star/20 border border-star/30 text-star-light rounded-lg whitespace-nowrap flex-shrink-0">
               {star}
             </span>
           ))}
