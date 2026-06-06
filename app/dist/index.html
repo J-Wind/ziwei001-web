@@ -73,7 +73,7 @@
     <script>
       (function() {
         // 当前部署版本号（每次更新代码时修改此值）
-        var CURRENT_VERSION = '20260601-2'
+        var CURRENT_VERSION = '20260601-3'
 
         // 从 localStorage 获取上次访问的版本
         var lastVersion = localStorage.getItem('app_version') || ''
@@ -83,7 +83,13 @@
           console.log('[Cache] 版本更新: ' + lastVersion + ' -> ' + CURRENT_VERSION + ', 正在清除缓存...')
 
           // 清除 localStorage 中的缓存数据（保留用户登录态）
-          var keysToKeep = ['token', 'user_info', 'auth_token']
+          // 注意：Zustand 持久化的 key 是 "ziwei-auth"，必须保留！
+          var keysToKeep = [
+            'ziwei-token',      // 登录 token
+            'ziwei-auth',       // Zustand 用户状态（含积分信息）
+            'ziwei-settings',   // 用户设置
+            'app_version'       // 版本号自身
+          ]
           var allKeys = []
           try {
             for (var i = 0; i < localStorage.length; i++) {
